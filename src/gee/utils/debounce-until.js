@@ -1,4 +1,4 @@
-const debounce = function(callback, rule, delay = 0) {
+const debounceUntil = function(callback, rule, delay = 0) {
 
     const _rule = typeof rule === 'function' ? rule : () => {
         return true;
@@ -8,9 +8,9 @@ const debounce = function(callback, rule, delay = 0) {
         if (_rule()) {
             callback();
         } else {
-            debounce(...arguments);
+            debounceUntil(...arguments);
         }
     }, delay);
 };
 
-module.exports = debounce;
+module.exports = debounceUntil;

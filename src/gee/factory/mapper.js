@@ -1,7 +1,7 @@
-const QueuableServiceFactory = require('./abstract/queuable-factory');
+const AbstractQueuableServiceFactory = require('./abstract/queuable-factory');
 const DefaultMapperService = require('./../service/mapper');
 
-module.exports = class MapperServiceFactory extends QueuableServiceFactory {
+module.exports = class MapperServiceFactory extends AbstractQueuableServiceFactory {
 
     constructor() {
         super();

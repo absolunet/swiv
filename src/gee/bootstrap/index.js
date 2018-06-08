@@ -1,46 +1,29 @@
 const configs = require('./../config');
-const debounce = require('./../utils/debounce');
-
-const isGaInitialized = () => {
-    return configs.ga && typeof window[configs.ga] === 'function';
-};
+const debounceUntil = require('./../utils/debounce-until');
+const isGaInitialized = require('./../utils/is-ga-initialized');
+const NoTrackingIdError = require('./../error/no-tracking-id');
+const getGaId = require('./../utils/get-ga-id');
 
 const resolveTrackingId = () => {
-    if (!isGaInitialized()){
+    if (!isGaInitialized(configs)){
         return;
     }
 
     if (!configs.get('id')) {
-        configs.set('id', getTrackingIdFromGa());
+        configs.set('id', getGaId(configs));
     }
 
     if (!configs.has('id')) {
-        throw new Error('Google Enhanced Ecommerce plugin requires a tracker ID to work. Set the ID witin the factory configuration (googleEnhancedEcommerceFactory.configs.set("id", "UA-XXXXXXXXX-Y"))');
+        throw new NoTrackingIdError();
     }
 
     window[configs.ga]('create', configs.id);
 };
 
-const getTrackingIdFromGa = () => {
-    try {
-        return ga.getAll().shift().a.data.values[':trackingId'];
-    } catch(e) {
-        const d = window[configs.dataLayer] || [];
-        for (let i = 0; i < d.length; i++) {
-            const data = d[i] || [];
-            if (data[0] === 'config') {
-                return data[1];
-            }
-        }
-    }
-
-    return null;
-}
-
-debounce(() => {
+debounceUntil(() => {
     resolveTrackingId();
     window[configs.ga]('require', 'ec');
     configs.set('ready', true);
 }, () => {
-    return isGaInitialized();
+    return isGaInitialized(configs);
 });

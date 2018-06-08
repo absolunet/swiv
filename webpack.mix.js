@@ -7,7 +7,6 @@ const distFileName = `${__dirname.split(path.sep).pop()}.js`;
 
 mix.setPublicPath(distFolderName)
     .js('index.js', distFileName)
-    .sourceMaps()
     .then(() => {
         const manifestPath = path.resolve(__dirname, distFolderName, 'mix-manifest.json');
         if (fs.existsSync(manifestPath)) {

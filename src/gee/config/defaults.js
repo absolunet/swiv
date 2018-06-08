@@ -5,6 +5,7 @@ module.exports = {
     eventPrefix: 'gee.',
     gaPrefix: 'ec:',
     events: [
+        require('./../models/event/default'),
         require('./../models/event/add-to-cart'),
         require('./../models/event/checkout'),
         require('./../models/event/checkout-option'),

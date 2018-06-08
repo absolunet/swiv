@@ -1,4 +1,4 @@
-const FactoryContract = require('./../contract/factory');
+const FactoryContract = require('./abstract/factory');
 const GoogleEnhancedEcommerceService = require('./../service/gee');
 
 const eventServiceFactory = new (require('./event'))();

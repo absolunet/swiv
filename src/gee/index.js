@@ -1,3 +1,4 @@
 require('./bootstrap');
+const GeeFactory = require('./factory/gee');
 
-module.exports = new (require('./factory/gee'))();
+module.exports = new GeeFactory();

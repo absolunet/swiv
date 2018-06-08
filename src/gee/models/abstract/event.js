@@ -1,4 +1,5 @@
 const AbstractModel = require('./model');
+const NotImplementedError = require('./../../error/not-implemented');
 const resolve = require('./../../utils/resolve');
 const filter = require('./../../utils/filter');
 
@@ -16,14 +17,18 @@ module.exports = class AbstractEventModel extends AbstractModel {
         const container = resolve(key, this) || {};
 
         if (container) {
-            if (container[lastKey] && container[lastKey].constructor === Array && data.constructor !== Array) {
+            const isOfMainType = data.constructor !== Array ? this.isOfMainType(data) : data.every((d) => {
+                return this.isOfMainType(d);
+            });
+
+            if (!isOfMainType) {
+                console.warn(`The main data does not fit the expected type: ${this.getMainDataType().name}`);
+            }
+
+            if (container[lastKey] && container[lastKey].constructor === Array) {
                 container[lastKey].push(data);
             } else {
-                if (this.isOfMainType(data)) {
-                    container[lastKey] = data;
-                } else {
-                    console.warn(`The main data does not fit the expected type: ${this.getMainDataType().name}`);
-                }
+                container[lastKey] = data;
             }
         }
     }
@@ -33,7 +38,7 @@ module.exports = class AbstractEventModel extends AbstractModel {
             return this.mainDataKey;
         }
 
-        throw new Error('getMainDataKey() method should be implemented (expected to return dotted path (string as "foo.bar") through the event model)');
+        throw new NotImplementedError();
     }
 
     getMainDataType() {

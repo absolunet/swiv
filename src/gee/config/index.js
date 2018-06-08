@@ -2,7 +2,7 @@ const defaultConfigs = require('./defaults');
 
 const _constants = {};
 
-class Configs {
+class ConfigRepository {
 
     get(key, defaultValue = null) {
         return this.has(key) ? _constants[key] : defaultValue;
@@ -48,7 +48,7 @@ class Configs {
     }
 }
 
-const configs = new Configs();
+const configs = new ConfigRepository();
 
 for (const key in defaultConfigs) {
     if (defaultConfigs[key]) {

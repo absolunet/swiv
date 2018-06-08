@@ -1,6 +1,7 @@
-const QueuableServiceFactoryContract = require('../../contract/queuable-factory');
+const AbstractServiceFactory = require('./factory');
+const NoQueueServiceError = require('./../../error/no-queue-service');
 
-module.exports = class QueuableServiceFactory extends QueuableServiceFactoryContract {
+module.exports = class AbstractQueuableServiceFactory extends AbstractServiceFactory {
 
     constructor() {
         super();
@@ -15,7 +16,7 @@ module.exports = class QueuableServiceFactory extends QueuableServiceFactoryCont
 
     getService() {
         if (this.queuedServices.length === 0) {
-            throw new Error('There is no queued service to return');
+            throw new NoQueueServiceError();
         }
 
         return this.queuedServices[this.queuedServices.length - 1];
