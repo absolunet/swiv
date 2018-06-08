@@ -1,1 +1,1 @@
-window.swiv = require('./src/index');
+window.swiv = require('./src');

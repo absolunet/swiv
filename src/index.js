@@ -1,3 +1,3 @@
 module.exports = {
-    gee: require('./gee/index')
+    gee: require('./gee')
 };
