@@ -5,6 +5,7 @@ module.exports = class RefundEventModel extends AbstractEventModel {
 
     getDefaultModelData() {
         return {
+            event: 'refund',
             ecommerce: {
                 refund: {
                     actionField: new ActionFieldModel()

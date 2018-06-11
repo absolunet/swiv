@@ -12,9 +12,7 @@ module.exports = class ProductDataModel extends AbstractDataModel {
             variant: '',
             list: '',
             position: 1,
-            price: 0,
-            quantity: 1,
-            coupon: ''
+            price: 0
         };
     }
 

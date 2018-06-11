@@ -3,7 +3,4 @@ const config = require('./../../config');
 
 module.exports = class ActionFieldDataModel extends AbstractDataModel {
 
-    getDefaultModelData() {
-        return {};
-    }
 }

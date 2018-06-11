@@ -5,6 +5,7 @@ module.exports = class PurchaseEventModel extends AbstractEventModel {
 
     getDefaultModelData() {
         return {
+            event: 'purchase',
             ecommerce: {
                 purchase: {
                     actionField: new ActionFieldModel()

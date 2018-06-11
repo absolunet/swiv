@@ -5,6 +5,7 @@ module.exports = class ProductDetailEventModel extends AbstractEventModel {
 
     getDefaultModelData() {
         return {
+            event: 'productDetail',
             ecommerce: {
                 detail: {
                     actionField: {},

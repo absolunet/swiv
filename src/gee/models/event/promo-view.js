@@ -5,6 +5,7 @@ module.exports = class PromoViewEventModel extends AbstractEventModel {
 
     getDefaultModelData() {
         return {
+            event: 'promotionView',
             ecommerce: {
                 promoView: {
                     promotions: []

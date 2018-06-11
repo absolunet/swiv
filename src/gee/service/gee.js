@@ -8,7 +8,7 @@ module.exports = class GoogleEnhancedEcommerceService {
         this.configs = configs;
 
         configs.events.forEach((event) => {
-            this.registerEvent(this.getCleanEventName(event.name));
+            this.registerEvent(this.getCleanEventName(event));
         });
     }
 
@@ -20,6 +20,10 @@ module.exports = class GoogleEnhancedEcommerceService {
                 return this.configs.ready && this.configs.ga && window[this.configs.ga];
             });
         });
+
+        this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true).replace(/(Event)?Model$/, '')}`] = (data) => {
+            return this.trigger(event, data);
+        }
 
         return this;
     }
@@ -36,25 +40,32 @@ module.exports = class GoogleEnhancedEcommerceService {
     }
 
     getEventModel(event) {
+        const eventModel = this.getEventModelClass(event);
+
+        return new eventModel();
+    }
+
+    getEventModelClass(event) {
         const eventCollection = this.configs.events;
 
         for (let i = eventCollection.length - 1; i >= 0; i--) {
-            if (this.getCleanEventName(eventCollection[i].name) == event) {
-                return new eventCollection[i]();
+            if (this.getCleanEventName(eventCollection[i]) == event) {
+                return eventCollection[i];
             }
         }
 
         for(let j = 0; j < eventCollection.length; j++) {
             if (/^[dD]efault/.test(eventCollection[j].name)) {
-                return new eventCollection[j]();
+                return eventCollection[j];
             }
         }
 
-        return new eventCollection[0]();
+        return eventCollection[0];
     }
 
-    getCleanEventName(event) {
-        const cleanName = event.replace(/(Event)?Model$/, '');
-        return `${cleanName.charAt(0).toLowerCase()}${cleanName.slice(1)}`;
+    getCleanEventName(event, toPascalCase = false) {
+        const cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
+        return `${cleanName.charAt(0)[`to${(toPascalCase ? 'Upper' : 'Lower')}Case`]()}${cleanName.slice(1)}`;
     }
 };
+

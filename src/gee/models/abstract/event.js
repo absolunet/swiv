@@ -46,27 +46,22 @@ module.exports = class AbstractEventModel extends AbstractModel {
     }
 
     isOfMainType(data) {
-        const mainDataType = this.getMainDataType();
-
-        if (data.prototype instanceof mainDataType) {
-            return true;
-        }
-
-        const requiredKeys = Object.keys(filter((new mainDataType()).getData(), (val, key) => {
-            return !val;
-        }));
-        
-        for (let i = requiredKeys.length - 1; i >= 0; i--) {
-            if (typeof data[requiredKeys[i]] === 'undefined') {
-
-                return false;
-            }
-        }
-
-        return true;
+        return Object.keys(filter((new (this.getMainDataType())()).getRequiredFields(), (val, key) => {
+            return typeof val === 'function' ? val(key, this) : !!val;
+        })).every((key) => {
+            return typeof data[key] === 'boolean' || data[key]
+        });
     }
 
     getWhitelistedFunctions() {
         return ['eventCallback'];
     }
+
+    getEventName() {
+        return this.constructor.getEventName();
+    }
 };
+
+module.exports.getEventName = function() {
+    return this.name.replace(/(Event)?Model$/, '');
+}

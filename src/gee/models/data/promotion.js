@@ -11,4 +11,12 @@ module.exports = class PromotionDataModel extends AbstractDataModel {
             position: ''
         };
     }
+
+    getRequiredFields() {
+        return {
+            id: (promotion, event) => {
+                return ['purchase', 'refund'].indexOf(event.getEventName()) !== -1;
+            }
+        };
+    }
 }

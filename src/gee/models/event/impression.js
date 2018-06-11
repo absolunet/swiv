@@ -1,10 +1,11 @@
 const AbstractEventModel = require('./../abstract/event');
-const ProductModel = require('./../data/product');
+const ImpressionModel = require('./../data/impression');
 
 module.exports = class ImpressionEventModel extends AbstractEventModel {
 
     getDefaultModelData() {
         return {
+            event: 'impressions',
             ecommerce: {
                 currencyCode: require('./../../config').get('currencyCode', 'USD'),
                 impressions: [],
@@ -17,6 +18,6 @@ module.exports = class ImpressionEventModel extends AbstractEventModel {
     }
 
     getMainDataType() {
-        return ProductModel;
+        return ImpressionModel;
     }
 }
