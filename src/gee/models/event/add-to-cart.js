@@ -24,3 +24,5 @@ module.exports = class AddToCartEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'AddToCartEventModel';

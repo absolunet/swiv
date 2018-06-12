@@ -24,3 +24,5 @@ module.exports = class PromoClickEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'PromoClickEventModel';

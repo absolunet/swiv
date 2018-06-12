@@ -23,3 +23,5 @@ module.exports = class RemoveFromCartEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'RemoveFromCartEventModel';

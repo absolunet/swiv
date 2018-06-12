@@ -67,5 +67,7 @@ module.exports = class AbstractEventModel extends AbstractModel {
 };
 
 module.exports.getEventName = function() {
-	return this.name.replace(/(Event)?Model$/, '');
+	const name = this.eventName || this.name;
+
+	return name.replace(/(Event)?Model$/, '');
 };

@@ -23,3 +23,5 @@ module.exports = class RefundEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'RefundEventModel';

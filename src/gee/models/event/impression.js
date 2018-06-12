@@ -22,3 +22,5 @@ module.exports = class ImpressionEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'ImpressionEventModel';

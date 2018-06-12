@@ -164,7 +164,9 @@ module.exports = function (_AbstractModel) {
 }(AbstractModel);
 
 module.exports.getEventName = function () {
-	return this.name.replace(/(Event)?Model$/, '');
+	var name = this.eventName || this.name;
+
+	return name.replace(/(Event)?Model$/, '');
 };
 
 /***/ }),
@@ -706,6 +708,8 @@ module.exports = function (_AbstractEventModel) {
 	return DefaultEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'DefaultEventModel';
+
 /***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -789,6 +793,8 @@ module.exports = function (_AbstractEventModel) {
 	return AddToCartEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'AddToCartEventModel';
+
 /***/ }),
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -842,6 +848,8 @@ module.exports = function (_AbstractEventModel) {
 
 	return CheckoutEventModel;
 }(AbstractEventModel);
+
+module.exports.eventName = 'CheckoutEventModel';
 
 /***/ }),
 /* 22 */
@@ -897,6 +905,8 @@ module.exports = function (_AbstractEventModel) {
 	return CheckoutOptionEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'CheckoutOptionEventModel';
+
 /***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -946,6 +956,8 @@ module.exports = function (_AbstractEventModel) {
 
 	return ImpressionEventModel;
 }(AbstractEventModel);
+
+module.exports.eventName = 'ImpressionEventModel';
 
 /***/ }),
 /* 24 */
@@ -1054,6 +1066,8 @@ module.exports = function (_AbstractEventModel) {
 	return ProductClickEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'ProductClickEventModel';
+
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1105,6 +1119,8 @@ module.exports = function (_AbstractEventModel) {
 
 	return ProductDetailEventModel;
 }(AbstractEventModel);
+
+module.exports.eventName = 'ProductDetailEventModel';
 
 /***/ }),
 /* 27 */
@@ -1158,6 +1174,8 @@ module.exports = function (_AbstractEventModel) {
 	return PromoClickEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'PromoClickEventModel';
+
 /***/ }),
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1208,6 +1226,8 @@ module.exports = function (_AbstractEventModel) {
 
 	return PromoViewEventModel;
 }(AbstractEventModel);
+
+module.exports.eventName = 'PromoViewEventModel';
 
 /***/ }),
 /* 29 */
@@ -1260,6 +1280,8 @@ module.exports = function (_AbstractEventModel) {
 	return PurchaseEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'PurchaseEventModel';
+
 /***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1311,6 +1333,8 @@ module.exports = function (_AbstractEventModel) {
 	return RefundEventModel;
 }(AbstractEventModel);
 
+module.exports.eventName = 'RefundEventModel';
+
 /***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1361,6 +1385,8 @@ module.exports = function (_AbstractEventModel) {
 
 	return RemoveFromCartEventModel;
 }(AbstractEventModel);
+
+module.exports.eventName = 'RemoveFromCartEventModel';
 
 /***/ }),
 /* 32 */

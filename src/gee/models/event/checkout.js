@@ -26,3 +26,5 @@ module.exports = class CheckoutEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'CheckoutEventModel';

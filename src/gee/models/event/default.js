@@ -17,3 +17,5 @@ module.exports = class DefaultEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'DefaultEventModel';

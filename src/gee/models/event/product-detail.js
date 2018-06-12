@@ -24,3 +24,5 @@ module.exports = class ProductDetailEventModel extends AbstractEventModel {
 	}
 
 };
+
+module.exports.eventName = 'ProductDetailEventModel';
