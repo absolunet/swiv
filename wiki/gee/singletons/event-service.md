@@ -1,5 +1,5 @@
 # EventService
-[_Swiv_](../../../) > [_Wiki_](../../) > [_Google Enhanced Ecommerce_](../) > [Singletons](readme.md)
+[_Swiv_](../../../readme.md) > [_Wiki_](../../) > [_Google Enhanced Ecommerce_](../) > [Singletons](readme.md)
 
 - [Google Enhanced Ecommerce](../)
     - [Singletons](readme.md)

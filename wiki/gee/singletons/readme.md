@@ -1,5 +1,5 @@
 # Singletons
-[_Swiv_](../../../) > [_Wiki_](../../) > [_Google Enhanced Ecommerce_](../)
+[_Swiv_](../../../readme.md) > [_Wiki_](../../) > [_Google Enhanced Ecommerce_](../)
 
 - [Google Enhanced Ecommerce](../)
     - Singletons
