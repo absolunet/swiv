@@ -7,21 +7,23 @@ It procures a fluent and modular API to send data to Google analytic systems, su
 It is dependency-free, back-end agnostic, with the possibility to replace any legacy singleton within the core by our own.
 It can be implemented anywhere, from a VanillaJS environment to a PWA built on top of your favorite JS framework.
 
+[You can read the whole wiki here](wiki)
+
 
 ## Requirements
 - Google Tag Manager account and integration tag
 - Nothing else! Just take a small cup of [kafe](https://github.com/absolunet/kafe) before getting started.
 
 
-## Get started
-TBD (Bower? Yarn? NPM?)
+## Getting started
+TBD
 
 
 ## Packages
 
-- [Swiv Core](https://github.com/absolunet/swiv)
-    - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv/tree/master/src/gee)
-- [Swiv Map - Insite](https://github.com/absolunet/swiv-map-insite)
-    - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-map-insite/tree/master/src/gee)
-- [Swiv App - Insite AngularJS](https://github.com/absolunet/swiv-app-insiteangular)
-    - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-app-insiteangular/tree/master/src/gee)
+- [Swiv Core](wiki)
+    - [Google Enhanced Ecommerce](wiki/gee)
+- [Swiv Map - Insite](https://github.com/absolunet/swiv-map-insite/tree/master/wiki)
+    - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-map-insite/tree/master/wiki/gee)
+- [Swiv App - Insite AngularJS](https://github.com/absolunet/swiv-app-insiteangular/tree/master/wiki)
+    - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-app-insiteangular/tree/master/wiki/gee)
