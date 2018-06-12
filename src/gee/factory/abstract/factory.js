@@ -1,8 +1,9 @@
-const NotimplementedError = require('./../../error/not-implemented');
+const NotImplementedError = require('./../../error/not-implemented');
 
 module.exports = class QueuableServiceFactory {
 
-    getService() {
-        throw new NotImplementedError();
-    }
-}
+	getService() {
+		throw new NotImplementedError();
+	}
+
+};

@@ -3,22 +3,23 @@ const ActionFieldModel = require('./../data/action-field');
 
 module.exports = class RefundEventModel extends AbstractEventModel {
 
-    getDefaultModelData() {
-        return {
-            event: 'refund',
-            ecommerce: {
-                refund: {
-                    actionField: new ActionFieldModel()
-                }
-            }
-        };
-    }
+	getDefaultModelData() {
+		return {
+			event: 'refund',
+			ecommerce: {
+				refund: {
+					actionField: new ActionFieldModel()
+				}
+			}
+		};
+	}
 
-    getMainDataKey() {
-        return 'ecommerce.refund.actionField';
-    }
+	getMainDataKey() {
+		return 'ecommerce.refund.actionField';
+	}
 
-    getMainDataType() {
-        return ActionFieldModel;
-    }
-}
+	getMainDataType() {
+		return ActionFieldModel;
+	}
+
+};

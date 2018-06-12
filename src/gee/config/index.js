@@ -4,56 +4,57 @@ const _constants = {};
 
 class ConfigRepository {
 
-    get(key, defaultValue = null) {
-        return this.has(key) ? _constants[key] : defaultValue;
-    }
+	get(key, defaultValue = null) {
+		return this.has(key) ? _constants[key] : defaultValue;
+	}
 
-    set(key, value) {
-        _constants[key] = value;
+	set(key, value) {
+		_constants[key] = value;
 
-        if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
-            Object.defineProperty(this, key, {
-                get: function() {
-                    return this.get(key);
-                },
-                set: function(value) {
-                    this.set(key, value);
-                }
-            });
-        }
+		if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
+			Object.defineProperty(this, key, {
+				get: function() {
+					return this.get(key);
+				},
+				set: function(v) {
+					this.set(key, v);
+				}
+			});
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    has(key) {
-        return typeof _constants[key] !== 'undefined';
-    }
+	has(key) {
+		return typeof _constants[key] !== 'undefined';
+	}
 
-    remove(key) {
-        delete _constants[key];
+	remove(key) {
+		delete _constants[key];
 
-        return this;
-    }
+		return this;
+	}
 
-    all() {
-        const constantsCopy = {};
+	all() {
+		const constantsCopy = {};
 
-        for (const key in _constants) {
-            if (typeof _constants[key] !== 'undefined') {
-                constantsCopy[key] = _constants[key];
-            }
-        }
+		for (const key in _constants) {
+			if (typeof _constants[key] !== 'undefined') {
+				constantsCopy[key] = _constants[key];
+			}
+		}
 
-        return constantsCopy;
-    }
+		return constantsCopy;
+	}
+
 }
 
 const configs = new ConfigRepository();
 
 for (const key in defaultConfigs) {
-    if (defaultConfigs[key]) {
-        configs.set(key, defaultConfigs[key]);
-    }
+	if (defaultConfigs[key]) {
+		configs.set(key, defaultConfigs[key]);
+	}
 }
 
 module.exports = configs;

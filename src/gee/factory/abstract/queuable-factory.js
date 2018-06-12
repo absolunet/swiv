@@ -3,22 +3,23 @@ const NoQueueServiceError = require('./../../error/no-queue-service');
 
 module.exports = class AbstractQueuableServiceFactory extends AbstractServiceFactory {
 
-    constructor() {
-        super();
-        this.queuedServices = [];
-    }
+	constructor() {
+		super();
+		this.queuedServices = [];
+	}
 
-    queueService(service) {
-        this.queuedServices.push(service);
+	queueService(service) {
+		this.queuedServices.push(service);
 
-        return this;
-    }
+		return this;
+	}
 
-    getService() {
-        if (this.queuedServices.length === 0) {
-            throw new NoQueueServiceError();
-        }
+	getService() {
+		if (this.queuedServices.length === 0) {
+			throw new NoQueueServiceError();
+		}
 
-        return this.queuedServices[this.queuedServices.length - 1];
-    }
-}
+		return this.queuedServices[this.queuedServices.length - 1];
+	}
+
+};

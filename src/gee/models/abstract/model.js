@@ -1,49 +1,52 @@
 module.exports = class AbstractModel {
 
-    constructor(data = {}) {
-        this.map(this.getDefaultModelData()).map(data);
-    }
+	constructor(data = {}) {
+		this.map(this.getDefaultModelData()).map(data);
+	}
 
-    map(data) {
-        for(const prop in data) {
-            if (typeof data[prop] !== 'undefined') {
-                this.set(prop, data[prop], data);
-            }
-        }
+	map(data) {
+		for (const prop in data) {
+			if (typeof data[prop] !== 'undefined') {
+				this.set(prop, data[prop], data);
+			}
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    set(prop, value, context) {
-        this[prop] = this.mapPropertyValue(prop, value, context);
+	set(prop, value, context) {
+		this[prop] = this.mapPropertyValue(prop, value, context);
 
-        return this;
-    }
+		return this;
+	}
 
-    getData() {
-        const data = {};
-        const whitelistedFunctions = this.getWhitelistedFunctions();
+	getData() {
+		const data = {};
+		const whitelistedFunctions = this.getWhitelistedFunctions();
 
-        for (const prop in this) {
-            const type = typeof this[prop];
+		for (const prop in this) {
+			if (typeof this[prop] !== 'undefined') {
+				const type = typeof this[prop];
 
-            if (type !== 'undefined' && ((typeof this[prop]) !== 'function' || whitelistedFunctions.indexOf(prop) !== -1)) {
-                data[prop] = this[prop];
-            }
-        }
+				if (type !== 'undefined' && (typeof this[prop] !== 'function' || whitelistedFunctions.indexOf(prop) !== -1)) {
+					data[prop] = this[prop];
+				}
+			}
+		}
 
-        return data;
-    }
+		return data;
+	}
 
-    getWhitelistedFunctions() {
-        return [];
-    }
+	getWhitelistedFunctions() {
+		return [];
+	}
 
-    mapPropertyValue(prop, value, context = {}) {
-        return value;
-    }
+	mapPropertyValue(prop, value, context = {}) { // eslint-disable-line no-unused-vars
+		return value;
+	}
 
-    getDefaultModelData() {
-        return {};
-    }
+	getDefaultModelData() {
+		return {};
+	}
+
 };

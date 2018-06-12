@@ -3,25 +3,26 @@ const ProductModel = require('./../data/product');
 
 module.exports = class CheckoutEventModel extends AbstractEventModel {
 
-    getDefaultModelData() {
-        return {
-            event: 'checkout',
-            ecommerce: {
-                actionField: {
-                    step: 1,
-                    option: require('./../../config').get('defaultCreditCard', '')
-                },
-                products: []
-            },
-            eventCallback: () => {}
-        };
-    }
+	getDefaultModelData() {
+		return {
+			event: 'checkout',
+			ecommerce: {
+				actionField: {
+					step: 1,
+					option: require('./../../config').get('defaultCreditCard', '')
+				},
+				products: []
+			},
+			eventCallback: () => {} // eslint-disable-line no-empty-function
+		};
+	}
 
-    getMainDataKey() {
-        return 'ecommerce.products';
-    }
+	getMainDataKey() {
+		return 'ecommerce.products';
+	}
 
-    getMainDataType() {
-        return ProductModel;
-    }
-}
+	getMainDataType() {
+		return ProductModel;
+	}
+
+};

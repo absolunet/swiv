@@ -81,87 +81,90 @@ var resolve = __webpack_require__(18);
 var filter = __webpack_require__(19);
 
 module.exports = function (_AbstractModel) {
-    _inherits(AbstractEventModel, _AbstractModel);
+	_inherits(AbstractEventModel, _AbstractModel);
 
-    function AbstractEventModel() {
-        _classCallCheck(this, AbstractEventModel);
+	function AbstractEventModel() {
+		_classCallCheck(this, AbstractEventModel);
 
-        var _this = _possibleConstructorReturn(this, (AbstractEventModel.__proto__ || Object.getPrototypeOf(AbstractEventModel)).call(this));
+		var _this = _possibleConstructorReturn(this, (AbstractEventModel.__proto__ || Object.getPrototypeOf(AbstractEventModel)).call(this));
 
-        _this.mainDataType = Object;
-        return _this;
-    }
+		_this.mainDataType = Object;
+		return _this;
+	}
 
-    _createClass(AbstractEventModel, [{
-        key: 'setMainData',
-        value: function setMainData() {
-            var _this2 = this;
+	_createClass(AbstractEventModel, [{
+		key: 'setMainData',
+		value: function setMainData() {
+			var _this2 = this;
 
-            var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+			var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            var keyList = this.getMainDataKey().split('.');
-            var lastKey = keyList.pop();
-            var key = keyList.join('.');
-            var container = resolve(key, this) || {};
+			var keyList = this.getMainDataKey().split('.');
+			var lastKey = keyList.pop();
+			var key = keyList.join('.');
+			var container = resolve(key, this) || {};
 
-            if (container) {
-                var isOfMainType = data.constructor !== Array ? this.isOfMainType(data) : data.every(function (d) {
-                    return _this2.isOfMainType(d);
-                });
+			if (container) {
+				var isOfMainType = data.constructor !== Array ? this.isOfMainType(data) : data.every(function (d) {
+					return _this2.isOfMainType(d);
+				});
 
-                if (!isOfMainType) {
-                    console.warn('The main data does not fit the expected type: ' + this.getMainDataType().name);
-                }
+				if (!isOfMainType) {
+					if (__webpack_require__(1).get('debug', false)) {
+						// eslint-disable-next-line no-console
+						console.warn('The main data does not fit the expected type: ' + this.getMainDataType().name);
+					}
+				}
 
-                if (container[lastKey] && container[lastKey].constructor === Array) {
-                    container[lastKey].push(data);
-                } else {
-                    container[lastKey] = data;
-                }
-            }
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            if (this.mainDataKey) {
-                return this.mainDataKey;
-            }
+				if (container[lastKey] && container[lastKey].constructor === Array) {
+					container[lastKey].push(data);
+				} else {
+					container[lastKey] = data;
+				}
+			}
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			if (this.mainDataKey) {
+				return this.mainDataKey;
+			}
 
-            throw new NotImplementedError();
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return this.mainDataType || Object;
-        }
-    }, {
-        key: 'isOfMainType',
-        value: function isOfMainType(data) {
-            var _this3 = this;
+			throw new NotImplementedError();
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return this.mainDataType || Object;
+		}
+	}, {
+		key: 'isOfMainType',
+		value: function isOfMainType(data) {
+			var _this3 = this;
 
-            return Object.keys(filter(new (this.getMainDataType())().getRequiredFields(), function (val, key) {
-                return typeof val === 'function' ? val(key, _this3) : !!val;
-            })).every(function (key) {
-                return typeof data[key] === 'boolean' || data[key];
-            });
-        }
-    }, {
-        key: 'getWhitelistedFunctions',
-        value: function getWhitelistedFunctions() {
-            return ['eventCallback'];
-        }
-    }, {
-        key: 'getEventName',
-        value: function getEventName() {
-            return this.constructor.getEventName();
-        }
-    }]);
+			return Object.keys(filter(new (this.getMainDataType())().getRequiredFields(), function (val, key) {
+				return typeof val === 'function' ? val(key, _this3) : Boolean(val);
+			})).every(function (key) {
+				return typeof data[key] === 'boolean' || data[key];
+			});
+		}
+	}, {
+		key: 'getWhitelistedFunctions',
+		value: function getWhitelistedFunctions() {
+			return ['eventCallback'];
+		}
+	}, {
+		key: 'getEventName',
+		value: function getEventName() {
+			return this.constructor.getEventName();
+		}
+	}]);
 
-    return AbstractEventModel;
+	return AbstractEventModel;
 }(AbstractModel);
 
 module.exports.getEventName = function () {
-    return this.name.replace(/(Event)?Model$/, '');
+	return this.name.replace(/(Event)?Model$/, '');
 };
 
 /***/ }),
@@ -177,71 +180,71 @@ var defaultConfigs = __webpack_require__(16);
 var _constants = {};
 
 var ConfigRepository = function () {
-    function ConfigRepository() {
-        _classCallCheck(this, ConfigRepository);
-    }
+	function ConfigRepository() {
+		_classCallCheck(this, ConfigRepository);
+	}
 
-    _createClass(ConfigRepository, [{
-        key: 'get',
-        value: function get(key) {
-            var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	_createClass(ConfigRepository, [{
+		key: 'get',
+		value: function get(key) {
+			var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            return this.has(key) ? _constants[key] : defaultValue;
-        }
-    }, {
-        key: 'set',
-        value: function set(key, value) {
-            _constants[key] = value;
+			return this.has(key) ? _constants[key] : defaultValue;
+		}
+	}, {
+		key: 'set',
+		value: function set(key, value) {
+			_constants[key] = value;
 
-            if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
-                Object.defineProperty(this, key, {
-                    get: function get() {
-                        return this.get(key);
-                    },
-                    set: function set(value) {
-                        this.set(key, value);
-                    }
-                });
-            }
+			if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
+				Object.defineProperty(this, key, {
+					get: function get() {
+						return this.get(key);
+					},
+					set: function set(v) {
+						this.set(key, v);
+					}
+				});
+			}
 
-            return this;
-        }
-    }, {
-        key: 'has',
-        value: function has(key) {
-            return typeof _constants[key] !== 'undefined';
-        }
-    }, {
-        key: 'remove',
-        value: function remove(key) {
-            delete _constants[key];
+			return this;
+		}
+	}, {
+		key: 'has',
+		value: function has(key) {
+			return typeof _constants[key] !== 'undefined';
+		}
+	}, {
+		key: 'remove',
+		value: function remove(key) {
+			delete _constants[key];
 
-            return this;
-        }
-    }, {
-        key: 'all',
-        value: function all() {
-            var constantsCopy = {};
+			return this;
+		}
+	}, {
+		key: 'all',
+		value: function all() {
+			var constantsCopy = {};
 
-            for (var key in _constants) {
-                if (typeof _constants[key] !== 'undefined') {
-                    constantsCopy[key] = _constants[key];
-                }
-            }
+			for (var key in _constants) {
+				if (typeof _constants[key] !== 'undefined') {
+					constantsCopy[key] = _constants[key];
+				}
+			}
 
-            return constantsCopy;
-        }
-    }]);
+			return constantsCopy;
+		}
+	}]);
 
-    return ConfigRepository;
+	return ConfigRepository;
 }();
 
 var configs = new ConfigRepository();
 
 for (var key in defaultConfigs) {
-    if (defaultConfigs[key]) {
-        configs.set(key, defaultConfigs[key]);
-    }
+	if (defaultConfigs[key]) {
+		configs.set(key, defaultConfigs[key]);
+	}
 }
 
 module.exports = configs;
@@ -252,8 +255,6 @@ module.exports = configs;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -263,45 +264,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AbstractDataModel = __webpack_require__(3);
 
 module.exports = function (_AbstractDataModel) {
-    _inherits(ProductDataModel, _AbstractDataModel);
+	_inherits(ProductDataModel, _AbstractDataModel);
 
-    function ProductDataModel() {
-        _classCallCheck(this, ProductDataModel);
+	function ProductDataModel() {
+		_classCallCheck(this, ProductDataModel);
 
-        return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
+	}
 
-    _createClass(ProductDataModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            var _ref;
+	_createClass(ProductDataModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				name: '',
+				id: '',
+				brand: '',
+				category: '',
+				variant: '',
+				list: '',
+				position: 1,
+				price: 0,
+				quantity: 1,
+				coupon: ''
+			};
+		}
+	}, {
+		key: 'getRequiredFields',
+		value: function getRequiredFields() {
+			return {
+				id: function id(product) {
+					return !product.name;
+				},
+				name: function name(product) {
+					return !product.id;
+				}
+			};
+		}
+	}]);
 
-            return _ref = {
-                name: '',
-                id: '',
-                price: '',
-                brand: '',
-                category: '',
-                variant: '',
-                list: '',
-                position: 1
-            }, _defineProperty(_ref, 'price', 0), _defineProperty(_ref, 'quantity', 1), _defineProperty(_ref, 'coupon', ''), _ref;
-        }
-    }, {
-        key: 'getRequiredFields',
-        value: function getRequiredFields() {
-            return {
-                id: function id(product) {
-                    return !product.name;
-                },
-                name: function name(product) {
-                    return !product.id;
-                }
-            };
-        }
-    }]);
-
-    return ProductDataModel;
+	return ProductDataModel;
 }(AbstractDataModel);
 
 /***/ }),
@@ -319,22 +320,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AbstractModel = __webpack_require__(5);
 
 module.exports = function (_AbstractModel) {
-    _inherits(AbstractDataModel, _AbstractModel);
+	_inherits(AbstractDataModel, _AbstractModel);
 
-    function AbstractDataModel() {
-        _classCallCheck(this, AbstractDataModel);
+	function AbstractDataModel() {
+		_classCallCheck(this, AbstractDataModel);
 
-        return _possibleConstructorReturn(this, (AbstractDataModel.__proto__ || Object.getPrototypeOf(AbstractDataModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (AbstractDataModel.__proto__ || Object.getPrototypeOf(AbstractDataModel)).apply(this, arguments));
+	}
 
-    _createClass(AbstractDataModel, [{
-        key: 'getRequiredFields',
-        value: function getRequiredFields() {
-            return {};
-        }
-    }]);
+	_createClass(AbstractDataModel, [{
+		key: 'getRequiredFields',
+		value: function getRequiredFields() {
+			return {};
+		}
+	}]);
 
-    return AbstractDataModel;
+	return AbstractDataModel;
 }(AbstractModel);
 
 /***/ }),
@@ -348,7 +349,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractDataModel = __webpack_require__(3);
-var config = __webpack_require__(1);
 
 module.exports = function (_AbstractDataModel) {
   _inherits(ActionFieldDataModel, _AbstractDataModel);
@@ -373,68 +373,70 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 module.exports = function () {
-    function AbstractModel() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	function AbstractModel() {
+		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-        _classCallCheck(this, AbstractModel);
+		_classCallCheck(this, AbstractModel);
 
-        this.map(this.getDefaultModelData()).map(data);
-    }
+		this.map(this.getDefaultModelData()).map(data);
+	}
 
-    _createClass(AbstractModel, [{
-        key: 'map',
-        value: function map(data) {
-            for (var prop in data) {
-                if (typeof data[prop] !== 'undefined') {
-                    this.set(prop, data[prop], data);
-                }
-            }
+	_createClass(AbstractModel, [{
+		key: 'map',
+		value: function map(data) {
+			for (var prop in data) {
+				if (typeof data[prop] !== 'undefined') {
+					this.set(prop, data[prop], data);
+				}
+			}
 
-            return this;
-        }
-    }, {
-        key: 'set',
-        value: function set(prop, value, context) {
-            this[prop] = this.mapPropertyValue(prop, value, context);
+			return this;
+		}
+	}, {
+		key: 'set',
+		value: function set(prop, value, context) {
+			this[prop] = this.mapPropertyValue(prop, value, context);
 
-            return this;
-        }
-    }, {
-        key: 'getData',
-        value: function getData() {
-            var data = {};
-            var whitelistedFunctions = this.getWhitelistedFunctions();
+			return this;
+		}
+	}, {
+		key: 'getData',
+		value: function getData() {
+			var data = {};
+			var whitelistedFunctions = this.getWhitelistedFunctions();
 
-            for (var prop in this) {
-                var type = _typeof(this[prop]);
+			for (var prop in this) {
+				if (typeof this[prop] !== 'undefined') {
+					var type = _typeof(this[prop]);
 
-                if (type !== 'undefined' && (typeof this[prop] !== 'function' || whitelistedFunctions.indexOf(prop) !== -1)) {
-                    data[prop] = this[prop];
-                }
-            }
+					if (type !== 'undefined' && (typeof this[prop] !== 'function' || whitelistedFunctions.indexOf(prop) !== -1)) {
+						data[prop] = this[prop];
+					}
+				}
+			}
 
-            return data;
-        }
-    }, {
-        key: 'getWhitelistedFunctions',
-        value: function getWhitelistedFunctions() {
-            return [];
-        }
-    }, {
-        key: 'mapPropertyValue',
-        value: function mapPropertyValue(prop, value) {
-            var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+			return data;
+		}
+	}, {
+		key: 'getWhitelistedFunctions',
+		value: function getWhitelistedFunctions() {
+			return [];
+		}
+	}, {
+		key: 'mapPropertyValue',
+		value: function mapPropertyValue(prop, value) {
+			var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+			// eslint-disable-line no-unused-vars
+			return value;
+		}
+	}, {
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {};
+		}
+	}]);
 
-            return value;
-        }
-    }, {
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {};
-        }
-    }]);
-
-    return AbstractModel;
+	return AbstractModel;
 }();
 
 /***/ }),
@@ -448,15 +450,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 module.exports = function (_Error) {
-    _inherits(NotImplementedError, _Error);
+	_inherits(NotImplementedError, _Error);
 
-    function NotImplementedError(method) {
-        _classCallCheck(this, NotImplementedError);
+	function NotImplementedError(method) {
+		_classCallCheck(this, NotImplementedError);
 
-        return _possibleConstructorReturn(this, (NotImplementedError.__proto__ || Object.getPrototypeOf(NotImplementedError)).call(this, "Method " + (method || arguments.callee.caller.name) + "() must be implemented."));
-    }
+		// eslint-disable-next-line no-caller
+		return _possibleConstructorReturn(this, (NotImplementedError.__proto__ || Object.getPrototypeOf(NotImplementedError)).call(this, "Method " + (method || arguments.callee.caller.name) + "() must be implemented."));
+	}
 
-    return NotImplementedError;
+	return NotImplementedError;
 }(Error);
 
 /***/ }),
@@ -472,39 +475,38 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractDataModel = __webpack_require__(3);
-var config = __webpack_require__(1);
 
 module.exports = function (_AbstractDataModel) {
-    _inherits(PromotionDataModel, _AbstractDataModel);
+	_inherits(PromotionDataModel, _AbstractDataModel);
 
-    function PromotionDataModel() {
-        _classCallCheck(this, PromotionDataModel);
+	function PromotionDataModel() {
+		_classCallCheck(this, PromotionDataModel);
 
-        return _possibleConstructorReturn(this, (PromotionDataModel.__proto__ || Object.getPrototypeOf(PromotionDataModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (PromotionDataModel.__proto__ || Object.getPrototypeOf(PromotionDataModel)).apply(this, arguments));
+	}
 
-    _createClass(PromotionDataModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                id: '',
-                name: '',
-                creative: '',
-                position: ''
-            };
-        }
-    }, {
-        key: 'getRequiredFields',
-        value: function getRequiredFields() {
-            return {
-                id: function id(promotion, event) {
-                    return ['purchase', 'refund'].indexOf(event.getEventName()) !== -1;
-                }
-            };
-        }
-    }]);
+	_createClass(PromotionDataModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				id: '',
+				name: '',
+				creative: '',
+				position: ''
+			};
+		}
+	}, {
+		key: 'getRequiredFields',
+		value: function getRequiredFields() {
+			return {
+				id: function id(promotion, event) {
+					return ['purchase', 'refund'].indexOf(event.getEventName()) !== -1;
+				}
+			};
+		}
+	}]);
 
-    return PromotionDataModel;
+	return PromotionDataModel;
 }(AbstractDataModel);
 
 /***/ }),
@@ -513,20 +515,20 @@ module.exports = function (_AbstractDataModel) {
 
 var _arguments = arguments;
 var debounceUntil = function debounceUntil(callback, rule) {
-    var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+	var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 
-    var _rule = typeof rule === 'function' ? rule : function () {
-        return true;
-    };
+	var _rule = typeof rule === 'function' ? rule : function () {
+		return true;
+	};
 
-    setTimeout(function () {
-        if (_rule()) {
-            callback();
-        } else {
-            debounceUntil.apply(undefined, _arguments);
-        }
-    }, delay);
+	setTimeout(function () {
+		if (_rule()) {
+			callback();
+		} else {
+			debounceUntil.apply(undefined, _arguments);
+		}
+	}, delay);
 };
 
 module.exports = debounceUntil;
@@ -539,21 +541,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var NotimplementedError = __webpack_require__(6);
+var NotImplementedError = __webpack_require__(6);
 
 module.exports = function () {
-    function QueuableServiceFactory() {
-        _classCallCheck(this, QueuableServiceFactory);
-    }
+	function QueuableServiceFactory() {
+		_classCallCheck(this, QueuableServiceFactory);
+	}
 
-    _createClass(QueuableServiceFactory, [{
-        key: 'getService',
-        value: function getService() {
-            throw new NotImplementedError();
-        }
-    }]);
+	_createClass(QueuableServiceFactory, [{
+		key: 'getService',
+		value: function getService() {
+			throw new NotImplementedError();
+		}
+	}]);
 
-    return QueuableServiceFactory;
+	return QueuableServiceFactory;
 }();
 
 /***/ }),
@@ -572,36 +574,36 @@ var AbstractServiceFactory = __webpack_require__(9);
 var NoQueueServiceError = __webpack_require__(35);
 
 module.exports = function (_AbstractServiceFacto) {
-    _inherits(AbstractQueuableServiceFactory, _AbstractServiceFacto);
+	_inherits(AbstractQueuableServiceFactory, _AbstractServiceFacto);
 
-    function AbstractQueuableServiceFactory() {
-        _classCallCheck(this, AbstractQueuableServiceFactory);
+	function AbstractQueuableServiceFactory() {
+		_classCallCheck(this, AbstractQueuableServiceFactory);
 
-        var _this = _possibleConstructorReturn(this, (AbstractQueuableServiceFactory.__proto__ || Object.getPrototypeOf(AbstractQueuableServiceFactory)).call(this));
+		var _this = _possibleConstructorReturn(this, (AbstractQueuableServiceFactory.__proto__ || Object.getPrototypeOf(AbstractQueuableServiceFactory)).call(this));
 
-        _this.queuedServices = [];
-        return _this;
-    }
+		_this.queuedServices = [];
+		return _this;
+	}
 
-    _createClass(AbstractQueuableServiceFactory, [{
-        key: 'queueService',
-        value: function queueService(service) {
-            this.queuedServices.push(service);
+	_createClass(AbstractQueuableServiceFactory, [{
+		key: 'queueService',
+		value: function queueService(service) {
+			this.queuedServices.push(service);
 
-            return this;
-        }
-    }, {
-        key: 'getService',
-        value: function getService() {
-            if (this.queuedServices.length === 0) {
-                throw new NoQueueServiceError();
-            }
+			return this;
+		}
+	}, {
+		key: 'getService',
+		value: function getService() {
+			if (this.queuedServices.length === 0) {
+				throw new NoQueueServiceError();
+			}
 
-            return this.queuedServices[this.queuedServices.length - 1];
-        }
-    }]);
+			return this.queuedServices[this.queuedServices.length - 1];
+		}
+	}]);
 
-    return AbstractQueuableServiceFactory;
+	return AbstractQueuableServiceFactory;
 }(AbstractServiceFactory);
 
 /***/ }),
@@ -622,7 +624,7 @@ window.swiv = __webpack_require__(13);
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    gee: __webpack_require__(14)
+	gee: __webpack_require__(14)
 };
 
 /***/ }),
@@ -640,9 +642,9 @@ var debounceUntil = __webpack_require__(8);
 var GeeFactory = __webpack_require__(32);
 
 debounceUntil(function () {
-    configs.set('ready', true);
+	configs.set('ready', true);
 }, function () {
-    return configs.gtm && window[configs.gtm] !== null;
+	return configs.gtm && window[configs.gtm] !== null;
 });
 
 module.exports = new GeeFactory();
@@ -652,11 +654,11 @@ module.exports = new GeeFactory();
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    dataLayer: 'dataLayer',
-    gtm: 'google_tag_manager',
-    eventPrefix: 'gee.',
-    gaPrefix: 'ec:',
-    events: [__webpack_require__(17), __webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(23), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31)]
+	dataLayer: 'dataLayer',
+	gtm: 'google_tag_manager',
+	eventPrefix: 'gee.',
+	gaPrefix: 'ec:',
+	events: [__webpack_require__(17), __webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(23), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31)]
 };
 
 /***/ }),
@@ -674,46 +676,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AbstractEventModel = __webpack_require__(0);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(DefaultEventModel, _AbstractEventModel);
+	_inherits(DefaultEventModel, _AbstractEventModel);
 
-    function DefaultEventModel() {
-        _classCallCheck(this, DefaultEventModel);
+	function DefaultEventModel() {
+		_classCallCheck(this, DefaultEventModel);
 
-        return _possibleConstructorReturn(this, (DefaultEventModel.__proto__ || Object.getPrototypeOf(DefaultEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (DefaultEventModel.__proto__ || Object.getPrototypeOf(DefaultEventModel)).apply(this, arguments));
+	}
 
-    _createClass(DefaultEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                ecommerce: {}
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return Object;
-        }
-    }]);
+	_createClass(DefaultEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				ecommerce: {}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return Object;
+		}
+	}]);
 
-    return DefaultEventModel;
+	return DefaultEventModel;
 }(AbstractEventModel);
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = function (path) {
-    var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    return path.split('.').reduce(function (prev, curr) {
-        return prev ? prev[curr] : undefined;
-    }, obj);
+	return path.split('.').reduce(function (prev, curr) {
+		return prev ? prev[curr] : undefined;
+	}, obj);
 };
 
 /***/ }),
@@ -721,15 +726,15 @@ module.exports = function (path) {
 /***/ (function(module, exports) {
 
 module.exports = function (obj, predicate) {
-    var result = {};
+	var result = {};
 
-    for (var key in obj) {
-        if (predicate(obj[key], key)) {
-            result[key] = obj[key];
-        }
-    }
+	for (var key in obj) {
+		if (predicate(obj[key], key)) {
+			result[key] = obj[key];
+		}
+	}
 
-    return result;
+	return result;
 };
 
 /***/ }),
@@ -748,40 +753,40 @@ var AbstractEventModel = __webpack_require__(0);
 var ProductModel = __webpack_require__(2);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(AddToCartEventModel, _AbstractEventModel);
+	_inherits(AddToCartEventModel, _AbstractEventModel);
 
-    function AddToCartEventModel() {
-        _classCallCheck(this, AddToCartEventModel);
+	function AddToCartEventModel() {
+		_classCallCheck(this, AddToCartEventModel);
 
-        return _possibleConstructorReturn(this, (AddToCartEventModel.__proto__ || Object.getPrototypeOf(AddToCartEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (AddToCartEventModel.__proto__ || Object.getPrototypeOf(AddToCartEventModel)).apply(this, arguments));
+	}
 
-    _createClass(AddToCartEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'addToCart',
-                ecommerce: {
-                    currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
-                    add: {
-                        products: []
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.add.products';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ProductModel;
-        }
-    }]);
+	_createClass(AddToCartEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'addToCart',
+				ecommerce: {
+					currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
+					add: {
+						products: []
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.add.products';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ProductModel;
+		}
+	}]);
 
-    return AddToCartEventModel;
+	return AddToCartEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -800,42 +805,42 @@ var AbstractEventModel = __webpack_require__(0);
 var ProductModel = __webpack_require__(2);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(CheckoutEventModel, _AbstractEventModel);
+	_inherits(CheckoutEventModel, _AbstractEventModel);
 
-    function CheckoutEventModel() {
-        _classCallCheck(this, CheckoutEventModel);
+	function CheckoutEventModel() {
+		_classCallCheck(this, CheckoutEventModel);
 
-        return _possibleConstructorReturn(this, (CheckoutEventModel.__proto__ || Object.getPrototypeOf(CheckoutEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (CheckoutEventModel.__proto__ || Object.getPrototypeOf(CheckoutEventModel)).apply(this, arguments));
+	}
 
-    _createClass(CheckoutEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'checkout',
-                ecommerce: {
-                    actionField: {
-                        step: 1,
-                        option: __webpack_require__(1).get('defaultCreditCard', '')
-                    },
-                    products: []
-                },
-                eventCallback: function eventCallback() {}
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.products';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ProductModel;
-        }
-    }]);
+	_createClass(CheckoutEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'checkout',
+				ecommerce: {
+					actionField: {
+						step: 1,
+						option: __webpack_require__(1).get('defaultCreditCard', '')
+					},
+					products: []
+				},
+				eventCallback: function eventCallback() {} // eslint-disable-line no-empty-function
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.products';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ProductModel;
+		}
+	}]);
 
-    return CheckoutEventModel;
+	return CheckoutEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -854,42 +859,42 @@ var AbstractEventModel = __webpack_require__(0);
 var ActionFieldModel = __webpack_require__(4);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(CheckoutOptionEventModel, _AbstractEventModel);
+	_inherits(CheckoutOptionEventModel, _AbstractEventModel);
 
-    function CheckoutOptionEventModel() {
-        _classCallCheck(this, CheckoutOptionEventModel);
+	function CheckoutOptionEventModel() {
+		_classCallCheck(this, CheckoutOptionEventModel);
 
-        return _possibleConstructorReturn(this, (CheckoutOptionEventModel.__proto__ || Object.getPrototypeOf(CheckoutOptionEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (CheckoutOptionEventModel.__proto__ || Object.getPrototypeOf(CheckoutOptionEventModel)).apply(this, arguments));
+	}
 
-    _createClass(CheckoutOptionEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'checkoutOption',
-                ecommerce: {
-                    checkout_option: {
-                        actionField: {
-                            step: 1,
-                            option: __webpack_require__(1).get('defaultCreditCard', '')
-                        }
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.checkout_option.actionField';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ActionFieldModel;
-        }
-    }]);
+	_createClass(CheckoutOptionEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'checkoutOption',
+				ecommerce: {
+					checkout_option: { // eslint-disable-line camelcase
+						actionField: {
+							step: 1,
+							option: __webpack_require__(1).get('defaultCreditCard', '')
+						}
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.checkout_option.actionField';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ActionFieldModel;
+		}
+	}]);
 
-    return CheckoutOptionEventModel;
+	return CheckoutOptionEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -908,38 +913,38 @@ var AbstractEventModel = __webpack_require__(0);
 var ImpressionModel = __webpack_require__(24);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(ImpressionEventModel, _AbstractEventModel);
+	_inherits(ImpressionEventModel, _AbstractEventModel);
 
-    function ImpressionEventModel() {
-        _classCallCheck(this, ImpressionEventModel);
+	function ImpressionEventModel() {
+		_classCallCheck(this, ImpressionEventModel);
 
-        return _possibleConstructorReturn(this, (ImpressionEventModel.__proto__ || Object.getPrototypeOf(ImpressionEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (ImpressionEventModel.__proto__ || Object.getPrototypeOf(ImpressionEventModel)).apply(this, arguments));
+	}
 
-    _createClass(ImpressionEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'impressions',
-                ecommerce: {
-                    currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
-                    impressions: []
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.impressions';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ImpressionModel;
-        }
-    }]);
+	_createClass(ImpressionEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'impressions',
+				ecommerce: {
+					currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
+					impressions: []
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.impressions';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ImpressionModel;
+		}
+	}]);
 
-    return ImpressionEventModel;
+	return ImpressionEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -947,8 +952,6 @@ module.exports = function (_AbstractEventModel) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -959,43 +962,43 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AbstractDataModel = __webpack_require__(3);
 
 module.exports = function (_AbstractDataModel) {
-    _inherits(ProductDataModel, _AbstractDataModel);
+	_inherits(ProductDataModel, _AbstractDataModel);
 
-    function ProductDataModel() {
-        _classCallCheck(this, ProductDataModel);
+	function ProductDataModel() {
+		_classCallCheck(this, ProductDataModel);
 
-        return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
+	}
 
-    _createClass(ProductDataModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return _defineProperty({
-                name: '',
-                id: '',
-                price: '',
-                brand: '',
-                category: '',
-                variant: '',
-                list: '',
-                position: 1
-            }, 'price', 0);
-        }
-    }, {
-        key: 'getRequiredFields',
-        value: function getRequiredFields() {
-            return {
-                id: function id(product) {
-                    return !product.name;
-                },
-                name: function name(product) {
-                    return !product.id;
-                }
-            };
-        }
-    }]);
+	_createClass(ProductDataModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				name: '',
+				id: '',
+				brand: '',
+				category: '',
+				variant: '',
+				list: '',
+				position: 1,
+				price: 0
+			};
+		}
+	}, {
+		key: 'getRequiredFields',
+		value: function getRequiredFields() {
+			return {
+				id: function id(product) {
+					return !product.name;
+				},
+				name: function name(product) {
+					return !product.id;
+				}
+			};
+		}
+	}]);
 
-    return ProductDataModel;
+	return ProductDataModel;
 }(AbstractDataModel);
 
 /***/ }),
@@ -1014,41 +1017,41 @@ var AbstractEventModel = __webpack_require__(0);
 var ProductModel = __webpack_require__(2);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(ProductClickEventModel, _AbstractEventModel);
+	_inherits(ProductClickEventModel, _AbstractEventModel);
 
-    function ProductClickEventModel() {
-        _classCallCheck(this, ProductClickEventModel);
+	function ProductClickEventModel() {
+		_classCallCheck(this, ProductClickEventModel);
 
-        return _possibleConstructorReturn(this, (ProductClickEventModel.__proto__ || Object.getPrototypeOf(ProductClickEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (ProductClickEventModel.__proto__ || Object.getPrototypeOf(ProductClickEventModel)).apply(this, arguments));
+	}
 
-    _createClass(ProductClickEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'productClick',
-                ecommerce: {
-                    click: {
-                        actionField: {},
-                        products: []
-                    }
-                },
-                eventCallback: function eventCallback() {}
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.click.products';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ProductModel;
-        }
-    }]);
+	_createClass(ProductClickEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'productClick',
+				ecommerce: {
+					click: {
+						actionField: {},
+						products: []
+					}
+				},
+				eventCallback: function eventCallback() {} // eslint-disable-line no-empty-function
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.click.products';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ProductModel;
+		}
+	}]);
 
-    return ProductClickEventModel;
+	return ProductClickEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1067,40 +1070,40 @@ var AbstractEventModel = __webpack_require__(0);
 var ProductModel = __webpack_require__(2);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(ProductDetailEventModel, _AbstractEventModel);
+	_inherits(ProductDetailEventModel, _AbstractEventModel);
 
-    function ProductDetailEventModel() {
-        _classCallCheck(this, ProductDetailEventModel);
+	function ProductDetailEventModel() {
+		_classCallCheck(this, ProductDetailEventModel);
 
-        return _possibleConstructorReturn(this, (ProductDetailEventModel.__proto__ || Object.getPrototypeOf(ProductDetailEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (ProductDetailEventModel.__proto__ || Object.getPrototypeOf(ProductDetailEventModel)).apply(this, arguments));
+	}
 
-    _createClass(ProductDetailEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'productDetail',
-                ecommerce: {
-                    detail: {
-                        actionField: {},
-                        products: []
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.detail.products';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ProductModel;
-        }
-    }]);
+	_createClass(ProductDetailEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'productDetail',
+				ecommerce: {
+					detail: {
+						actionField: {},
+						products: []
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.detail.products';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ProductModel;
+		}
+	}]);
 
-    return ProductDetailEventModel;
+	return ProductDetailEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1119,40 +1122,40 @@ var AbstractEventModel = __webpack_require__(0);
 var PromotionModel = __webpack_require__(7);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(PromoClickEventModel, _AbstractEventModel);
+	_inherits(PromoClickEventModel, _AbstractEventModel);
 
-    function PromoClickEventModel() {
-        _classCallCheck(this, PromoClickEventModel);
+	function PromoClickEventModel() {
+		_classCallCheck(this, PromoClickEventModel);
 
-        return _possibleConstructorReturn(this, (PromoClickEventModel.__proto__ || Object.getPrototypeOf(PromoClickEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (PromoClickEventModel.__proto__ || Object.getPrototypeOf(PromoClickEventModel)).apply(this, arguments));
+	}
 
-    _createClass(PromoClickEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'promotionClick',
-                ecommerce: {
-                    promoClick: {
-                        promotions: []
-                    }
-                },
-                eventCallback: function eventCallback() {}
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.promoClick.promotions';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return PromotionModel;
-        }
-    }]);
+	_createClass(PromoClickEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'promotionClick',
+				ecommerce: {
+					promoClick: {
+						promotions: []
+					}
+				},
+				eventCallback: function eventCallback() {} // eslint-disable-line no-empty-function
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.promoClick.promotions';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return PromotionModel;
+		}
+	}]);
 
-    return PromoClickEventModel;
+	return PromoClickEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1171,39 +1174,39 @@ var AbstractEventModel = __webpack_require__(0);
 var PromotionModel = __webpack_require__(7);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(PromoViewEventModel, _AbstractEventModel);
+	_inherits(PromoViewEventModel, _AbstractEventModel);
 
-    function PromoViewEventModel() {
-        _classCallCheck(this, PromoViewEventModel);
+	function PromoViewEventModel() {
+		_classCallCheck(this, PromoViewEventModel);
 
-        return _possibleConstructorReturn(this, (PromoViewEventModel.__proto__ || Object.getPrototypeOf(PromoViewEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (PromoViewEventModel.__proto__ || Object.getPrototypeOf(PromoViewEventModel)).apply(this, arguments));
+	}
 
-    _createClass(PromoViewEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'promotionView',
-                ecommerce: {
-                    promoView: {
-                        promotions: []
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.promoView.promotions';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return PromotionModel;
-        }
-    }]);
+	_createClass(PromoViewEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'promotionView',
+				ecommerce: {
+					promoView: {
+						promotions: []
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.promoView.promotions';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return PromotionModel;
+		}
+	}]);
 
-    return PromoViewEventModel;
+	return PromoViewEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1222,39 +1225,39 @@ var AbstractEventModel = __webpack_require__(0);
 var ActionFieldModel = __webpack_require__(4);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(PurchaseEventModel, _AbstractEventModel);
+	_inherits(PurchaseEventModel, _AbstractEventModel);
 
-    function PurchaseEventModel() {
-        _classCallCheck(this, PurchaseEventModel);
+	function PurchaseEventModel() {
+		_classCallCheck(this, PurchaseEventModel);
 
-        return _possibleConstructorReturn(this, (PurchaseEventModel.__proto__ || Object.getPrototypeOf(PurchaseEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (PurchaseEventModel.__proto__ || Object.getPrototypeOf(PurchaseEventModel)).apply(this, arguments));
+	}
 
-    _createClass(PurchaseEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'purchase',
-                ecommerce: {
-                    purchase: {
-                        actionField: new ActionFieldModel()
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.purchase.actionField';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ActionFieldModel;
-        }
-    }]);
+	_createClass(PurchaseEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'purchase',
+				ecommerce: {
+					purchase: {
+						actionField: new ActionFieldModel()
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.purchase.actionField';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ActionFieldModel;
+		}
+	}]);
 
-    return PurchaseEventModel;
+	return PurchaseEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1273,39 +1276,39 @@ var AbstractEventModel = __webpack_require__(0);
 var ActionFieldModel = __webpack_require__(4);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(RefundEventModel, _AbstractEventModel);
+	_inherits(RefundEventModel, _AbstractEventModel);
 
-    function RefundEventModel() {
-        _classCallCheck(this, RefundEventModel);
+	function RefundEventModel() {
+		_classCallCheck(this, RefundEventModel);
 
-        return _possibleConstructorReturn(this, (RefundEventModel.__proto__ || Object.getPrototypeOf(RefundEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (RefundEventModel.__proto__ || Object.getPrototypeOf(RefundEventModel)).apply(this, arguments));
+	}
 
-    _createClass(RefundEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'refund',
-                ecommerce: {
-                    refund: {
-                        actionField: new ActionFieldModel()
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.refund.actionField';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ActionFieldModel;
-        }
-    }]);
+	_createClass(RefundEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'refund',
+				ecommerce: {
+					refund: {
+						actionField: new ActionFieldModel()
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.refund.actionField';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ActionFieldModel;
+		}
+	}]);
 
-    return RefundEventModel;
+	return RefundEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1324,39 +1327,39 @@ var AbstractEventModel = __webpack_require__(0);
 var ProductModel = __webpack_require__(2);
 
 module.exports = function (_AbstractEventModel) {
-    _inherits(RemoveFromCartEventModel, _AbstractEventModel);
+	_inherits(RemoveFromCartEventModel, _AbstractEventModel);
 
-    function RemoveFromCartEventModel() {
-        _classCallCheck(this, RemoveFromCartEventModel);
+	function RemoveFromCartEventModel() {
+		_classCallCheck(this, RemoveFromCartEventModel);
 
-        return _possibleConstructorReturn(this, (RemoveFromCartEventModel.__proto__ || Object.getPrototypeOf(RemoveFromCartEventModel)).apply(this, arguments));
-    }
+		return _possibleConstructorReturn(this, (RemoveFromCartEventModel.__proto__ || Object.getPrototypeOf(RemoveFromCartEventModel)).apply(this, arguments));
+	}
 
-    _createClass(RemoveFromCartEventModel, [{
-        key: 'getDefaultModelData',
-        value: function getDefaultModelData() {
-            return {
-                event: 'removeFromCart',
-                ecommerce: {
-                    remove: {
-                        products: []
-                    }
-                }
-            };
-        }
-    }, {
-        key: 'getMainDataKey',
-        value: function getMainDataKey() {
-            return 'ecommerce.remove.products';
-        }
-    }, {
-        key: 'getMainDataType',
-        value: function getMainDataType() {
-            return ProductModel;
-        }
-    }]);
+	_createClass(RemoveFromCartEventModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				event: 'removeFromCart',
+				ecommerce: {
+					remove: {
+						products: []
+					}
+				}
+			};
+		}
+	}, {
+		key: 'getMainDataKey',
+		value: function getMainDataKey() {
+			return 'ecommerce.remove.products';
+		}
+	}, {
+		key: 'getMainDataType',
+		value: function getMainDataType() {
+			return ProductModel;
+		}
+	}]);
 
-    return RemoveFromCartEventModel;
+	return RemoveFromCartEventModel;
 }(AbstractEventModel);
 
 /***/ }),
@@ -1381,45 +1384,45 @@ var configs = __webpack_require__(1);
 var _singleton = void 0;
 
 module.exports = function (_FactoryContract) {
-    _inherits(GoogleEnhancedEcommerceServiceFactory, _FactoryContract);
+	_inherits(GoogleEnhancedEcommerceServiceFactory, _FactoryContract);
 
-    function GoogleEnhancedEcommerceServiceFactory() {
-        _classCallCheck(this, GoogleEnhancedEcommerceServiceFactory);
+	function GoogleEnhancedEcommerceServiceFactory() {
+		_classCallCheck(this, GoogleEnhancedEcommerceServiceFactory);
 
-        var _this = _possibleConstructorReturn(this, (GoogleEnhancedEcommerceServiceFactory.__proto__ || Object.getPrototypeOf(GoogleEnhancedEcommerceServiceFactory)).call(this));
+		var _this = _possibleConstructorReturn(this, (GoogleEnhancedEcommerceServiceFactory.__proto__ || Object.getPrototypeOf(GoogleEnhancedEcommerceServiceFactory)).call(this));
 
-        _this.configs = configs;
-        return _this;
-    }
+		_this.configs = configs;
+		return _this;
+	}
 
-    _createClass(GoogleEnhancedEcommerceServiceFactory, [{
-        key: 'setEventService',
-        value: function setEventService(service) {
-            eventServiceFactory.queueService(service);
+	_createClass(GoogleEnhancedEcommerceServiceFactory, [{
+		key: 'setEventService',
+		value: function setEventService(service) {
+			eventServiceFactory.queueService(service);
 
-            return this;
-        }
-    }, {
-        key: 'setMapperService',
-        value: function setMapperService(service) {
-            mapperServiceFactory.queueService(service);
+			return this;
+		}
+	}, {
+		key: 'setMapperService',
+		value: function setMapperService(service) {
+			mapperServiceFactory.queueService(service);
 
-            return this;
-        }
-    }, {
-        key: 'getService',
-        value: function getService() {
-            if (!_singleton) {
-                var eventService = eventServiceFactory.getService();
-                var mapperService = mapperServiceFactory.getService();
-                _singleton = new GoogleEnhancedEcommerceService(eventService, mapperService, this.configs);
-            }
+			return this;
+		}
+	}, {
+		key: 'getService',
+		value: function getService() {
+			if (!_singleton) {
+				var eventService = eventServiceFactory.getService();
+				var mapperService = mapperServiceFactory.getService();
+				_singleton = new GoogleEnhancedEcommerceService(eventService, mapperService, this.configs);
+			}
 
-            return _singleton;
-        }
-    }]);
+			return _singleton;
+		}
+	}]);
 
-    return GoogleEnhancedEcommerceServiceFactory;
+	return GoogleEnhancedEcommerceServiceFactory;
 }(FactoryContract);
 
 /***/ }),
@@ -1433,93 +1436,95 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var debounceUntil = __webpack_require__(8);
 
 module.exports = function () {
-    function GoogleEnhancedEcommerceService(eventService, mapperService, configs) {
-        var _this = this;
+	function GoogleEnhancedEcommerceService(eventService, mapperService, configs) {
+		var _this = this;
 
-        _classCallCheck(this, GoogleEnhancedEcommerceService);
+		_classCallCheck(this, GoogleEnhancedEcommerceService);
 
-        this.eventService = eventService;
-        this.mapperService = mapperService;
-        this.configs = configs;
+		this.eventService = eventService;
+		this.mapperService = mapperService;
+		this.configs = configs;
 
-        configs.events.forEach(function (event) {
-            _this.registerEvent(_this.getCleanEventName(event));
-        });
-    }
+		configs.events.forEach(function (event) {
+			_this.registerEvent(_this.getCleanEventName(event));
+		});
+	}
 
-    _createClass(GoogleEnhancedEcommerceService, [{
-        key: 'registerEvent',
-        value: function registerEvent(event) {
-            var _this2 = this;
+	_createClass(GoogleEnhancedEcommerceService, [{
+		key: 'registerEvent',
+		value: function registerEvent(event) {
+			var _this2 = this;
 
-            this.eventService.subscribe(this.getEventName(event), function (data) {
-                debounceUntil(function () {
-                    window[_this2.configs.dataLayer].push(data);
-                }, function () {
-                    return _this2.configs.ready;
-                });
-            });
+			this.eventService.subscribe(this.getEventName(event), function (data) {
+				debounceUntil(function () {
+					window[_this2.configs.dataLayer].push(data);
+				}, function () {
+					return _this2.configs.ready;
+				});
+			});
 
-            this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true)] = function (data) {
-                return _this2.trigger(event, data);
-            };
+			this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true)] = function (data) {
+				return _this2.trigger(event, data);
+			};
 
-            return this;
-        }
-    }, {
-        key: 'trigger',
-        value: function trigger(event) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			return this;
+		}
+	}, {
+		key: 'trigger',
+		value: function trigger(event) {
+			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-            this.eventService.publish(this.getEventName(event), this.mapperService.map(data, this.getEventModel(event)));
+			this.eventService.publish(this.getEventName(event), this.mapperService.map(data, this.getEventModel(event)));
 
-            return this;
-        }
-    }, {
-        key: 'getEventName',
-        value: function getEventName(event) {
-            var withPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+			return this;
+		}
+	}, {
+		key: 'getEventName',
+		value: function getEventName(event) {
+			var withPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-            var prefix = withPrefix ? this.configs.get('eventPrefix', '') : '';
-            return '' + prefix + event;
-        }
-    }, {
-        key: 'getEventModel',
-        value: function getEventModel(event) {
-            var eventModel = this.getEventModelClass(event);
+			var prefix = withPrefix ? this.configs.get('eventPrefix', '') : '';
 
-            return new eventModel();
-        }
-    }, {
-        key: 'getEventModelClass',
-        value: function getEventModelClass(event) {
-            var eventCollection = this.configs.events;
+			return '' + prefix + event;
+		}
+	}, {
+		key: 'getEventModel',
+		value: function getEventModel(event) {
+			var EventModel = this.getEventModelClass(event);
 
-            for (var i = eventCollection.length - 1; i >= 0; i--) {
-                if (this.getCleanEventName(eventCollection[i]) == event) {
-                    return eventCollection[i];
-                }
-            }
+			return new EventModel();
+		}
+	}, {
+		key: 'getEventModelClass',
+		value: function getEventModelClass(event) {
+			var eventCollection = this.configs.events;
 
-            for (var j = 0; j < eventCollection.length; j++) {
-                if (/^[dD]efault/.test(eventCollection[j].name)) {
-                    return eventCollection[j];
-                }
-            }
+			for (var i = eventCollection.length - 1; i >= 0; i--) {
+				if (this.getCleanEventName(eventCollection[i]) === event) {
+					return eventCollection[i];
+				}
+			}
 
-            return eventCollection[0];
-        }
-    }, {
-        key: 'getCleanEventName',
-        value: function getCleanEventName(event) {
-            var toPascalCase = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+			for (var j = 0; j < eventCollection.length; j++) {
+				if (/^[dD]efault/.test(eventCollection[j].name)) {
+					return eventCollection[j];
+				}
+			}
 
-            var cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
-            return '' + cleanName.charAt(0)['to' + (toPascalCase ? 'Upper' : 'Lower') + 'Case']() + cleanName.slice(1);
-        }
-    }]);
+			return eventCollection[0];
+		}
+	}, {
+		key: 'getCleanEventName',
+		value: function getCleanEventName(event) {
+			var toPascalCase = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-    return GoogleEnhancedEcommerceService;
+			var cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
+
+			return '' + cleanName.charAt(0)['to' + (toPascalCase ? 'Upper' : 'Lower') + 'Case']() + cleanName.slice(1);
+		}
+	}]);
+
+	return GoogleEnhancedEcommerceService;
 }();
 
 /***/ }),
@@ -1536,18 +1541,18 @@ var AbstractQueuableServiceFactory = __webpack_require__(10);
 var DefaultEventService = __webpack_require__(36);
 
 module.exports = function (_AbstractQueuableServ) {
-    _inherits(EventServiceFactory, _AbstractQueuableServ);
+	_inherits(EventServiceFactory, _AbstractQueuableServ);
 
-    function EventServiceFactory() {
-        _classCallCheck(this, EventServiceFactory);
+	function EventServiceFactory() {
+		_classCallCheck(this, EventServiceFactory);
 
-        var _this = _possibleConstructorReturn(this, (EventServiceFactory.__proto__ || Object.getPrototypeOf(EventServiceFactory)).call(this));
+		var _this = _possibleConstructorReturn(this, (EventServiceFactory.__proto__ || Object.getPrototypeOf(EventServiceFactory)).call(this));
 
-        _this.queueService(new DefaultEventService());
-        return _this;
-    }
+		_this.queueService(new DefaultEventService());
+		return _this;
+	}
 
-    return EventServiceFactory;
+	return EventServiceFactory;
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
@@ -1561,17 +1566,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 module.exports = function (_Error) {
-    _inherits(noQueueServiceError, _Error);
+	_inherits(noQueueServiceError, _Error);
 
-    function noQueueServiceError() {
-        var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'There is no queued service.';
+	function noQueueServiceError() {
+		var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'There is no queued service.';
 
-        _classCallCheck(this, noQueueServiceError);
+		_classCallCheck(this, noQueueServiceError);
 
-        return _possibleConstructorReturn(this, (noQueueServiceError.__proto__ || Object.getPrototypeOf(noQueueServiceError)).call(this, message));
-    }
+		return _possibleConstructorReturn(this, (noQueueServiceError.__proto__ || Object.getPrototypeOf(noQueueServiceError)).call(this, message));
+	}
 
-    return noQueueServiceError;
+	return noQueueServiceError;
 }(Error);
 
 /***/ }),
@@ -1583,51 +1588,51 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 module.exports = function () {
-    function DefaultEventService() {
-        _classCallCheck(this, DefaultEventService);
+	function DefaultEventService() {
+		_classCallCheck(this, DefaultEventService);
 
-        this.events = {};
-    }
+		this.events = {};
+	}
 
-    _createClass(DefaultEventService, [{
-        key: "subscribe",
-        value: function subscribe(event, callback) {
-            var token = this.generateToken();
-            this.events[event] = this.events[event] || [];
-            this.events[event].push({ token: token, callback: callback });
+	_createClass(DefaultEventService, [{
+		key: "subscribe",
+		value: function subscribe(event, callback) {
+			var token = this.generateToken();
+			this.events[event] = this.events[event] || [];
+			this.events[event].push({ token: token, callback: callback });
 
-            return token;
-        }
-    }, {
-        key: "unsubscribe",
-        value: function unsubscribe(token) {
-            for (var event in this.events) {
-                if (this.events[event]) {
-                    for (var i = this.events[event].length - 1; i >= 0; i--) {
-                        if (this.events[event].token === token) {
-                            this.events[event].splice(i, 1);
-                        }
-                    }
-                }
-            }
-        }
-    }, {
-        key: "publish",
-        value: function publish(event) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			return token;
+		}
+	}, {
+		key: "unsubscribe",
+		value: function unsubscribe(token) {
+			for (var event in this.events) {
+				if (this.events[event]) {
+					for (var i = this.events[event].length - 1; i >= 0; i--) {
+						if (this.events[event].token === token) {
+							this.events[event].splice(i, 1);
+						}
+					}
+				}
+			}
+		}
+	}, {
+		key: "publish",
+		value: function publish(event) {
+			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-            (this.events[event] || []).forEach(function (subscriber) {
-                subscriber.callback(data);
-            });
-        }
-    }, {
-        key: "generateToken",
-        value: function generateToken() {
-            return Math.random().toString(32).substr(2);
-        }
-    }]);
+			(this.events[event] || []).forEach(function (subscriber) {
+				subscriber.callback(data);
+			});
+		}
+	}, {
+		key: "generateToken",
+		value: function generateToken() {
+			return Math.random().toString(32).substr(2);
+		}
+	}]);
 
-    return DefaultEventService;
+	return DefaultEventService;
 }();
 
 /***/ }),
@@ -1644,18 +1649,18 @@ var AbstractQueuableServiceFactory = __webpack_require__(10);
 var DefaultMapperService = __webpack_require__(38);
 
 module.exports = function (_AbstractQueuableServ) {
-    _inherits(MapperServiceFactory, _AbstractQueuableServ);
+	_inherits(MapperServiceFactory, _AbstractQueuableServ);
 
-    function MapperServiceFactory() {
-        _classCallCheck(this, MapperServiceFactory);
+	function MapperServiceFactory() {
+		_classCallCheck(this, MapperServiceFactory);
 
-        var _this = _possibleConstructorReturn(this, (MapperServiceFactory.__proto__ || Object.getPrototypeOf(MapperServiceFactory)).call(this));
+		var _this = _possibleConstructorReturn(this, (MapperServiceFactory.__proto__ || Object.getPrototypeOf(MapperServiceFactory)).call(this));
 
-        _this.queueService(new DefaultMapperService());
-        return _this;
-    }
+		_this.queueService(new DefaultMapperService());
+		return _this;
+	}
 
-    return MapperServiceFactory;
+	return MapperServiceFactory;
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
@@ -1667,20 +1672,20 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 module.exports = function () {
-    function DefaultMapperService() {
-        _classCallCheck(this, DefaultMapperService);
-    }
+	function DefaultMapperService() {
+		_classCallCheck(this, DefaultMapperService);
+	}
 
-    _createClass(DefaultMapperService, [{
-        key: "map",
-        value: function map(data, event) {
-            event.setMainData(data);
+	_createClass(DefaultMapperService, [{
+		key: "map",
+		value: function map(data, event) {
+			event.setMainData(data);
 
-            return event;
-        }
-    }]);
+			return event;
+		}
+	}]);
 
-    return DefaultMapperService;
+	return DefaultMapperService;
 }();
 
 /***/ })

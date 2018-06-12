@@ -3,22 +3,23 @@ const PromotionModel = require('./../data/promotion');
 
 module.exports = class PromoViewEventModel extends AbstractEventModel {
 
-    getDefaultModelData() {
-        return {
-            event: 'promotionView',
-            ecommerce: {
-                promoView: {
-                    promotions: []
-                }
-            }
-        };
-    }
+	getDefaultModelData() {
+		return {
+			event: 'promotionView',
+			ecommerce: {
+				promoView: {
+					promotions: []
+				}
+			}
+		};
+	}
 
-    getMainDataKey() {
-        return 'ecommerce.promoView.promotions';
-    }
+	getMainDataKey() {
+		return 'ecommerce.promoView.promotions';
+	}
 
-    getMainDataType() {
-        return PromotionModel;
-    }
-}
+	getMainDataType() {
+		return PromotionModel;
+	}
+
+};

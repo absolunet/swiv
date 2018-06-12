@@ -9,30 +9,31 @@ let _singleton;
 
 module.exports = class GoogleEnhancedEcommerceServiceFactory extends FactoryContract {
 
-    constructor() {
-        super();
-        this.configs = configs;
-    }
+	constructor() {
+		super();
+		this.configs = configs;
+	}
 
-    setEventService(service) {
-        eventServiceFactory.queueService(service);
+	setEventService(service) {
+		eventServiceFactory.queueService(service);
 
-        return this;
-    }
+		return this;
+	}
 
-    setMapperService(service) {
-        mapperServiceFactory.queueService(service);
+	setMapperService(service) {
+		mapperServiceFactory.queueService(service);
 
-        return this;
-    }
+		return this;
+	}
 
-    getService() {
-        if (!_singleton) {
-            const eventService = eventServiceFactory.getService();
-            const mapperService = mapperServiceFactory.getService();
-            _singleton = new GoogleEnhancedEcommerceService(eventService, mapperService, this.configs);
-        }
-        
-        return _singleton;
-    }
-}
+	getService() {
+		if (!_singleton) {
+			const eventService = eventServiceFactory.getService();
+			const mapperService = mapperServiceFactory.getService();
+			_singleton = new GoogleEnhancedEcommerceService(eventService, mapperService, this.configs);
+		}
+
+		return _singleton;
+	}
+
+};

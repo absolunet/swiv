@@ -1,8 +1,9 @@
 module.exports = class DefaultMapperService {
-    
-    map(data, event) {
-        event.setMainData(data);
 
-        return event;
-    }
-}
+	map(data, event) {
+		event.setMainData(data);
+
+		return event;
+	}
+
+};

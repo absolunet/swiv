@@ -3,8 +3,9 @@ const DefaultEventService = require('./../service/event');
 
 module.exports = class EventServiceFactory extends AbstractQueuableServiceFactory {
 
-    constructor() {
-        super();
-        this.queueService(new DefaultEventService());
-    }
-}
+	constructor() {
+		super();
+		this.queueService(new DefaultEventService());
+	}
+
+};

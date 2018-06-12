@@ -2,69 +2,72 @@ const debounceUntil = require('./../utils/debounce-until');
 
 module.exports = class GoogleEnhancedEcommerceService {
 
-    constructor(eventService, mapperService, configs) {
-        this.eventService = eventService;
-        this.mapperService = mapperService;
-        this.configs = configs;
+	constructor(eventService, mapperService, configs) {
+		this.eventService = eventService;
+		this.mapperService = mapperService;
+		this.configs = configs;
 
-        configs.events.forEach((event) => {
-            this.registerEvent(this.getCleanEventName(event));
-        });
-    }
+		configs.events.forEach((event) => {
+			this.registerEvent(this.getCleanEventName(event));
+		});
+	}
 
-    registerEvent(event) {
-        this.eventService.subscribe(this.getEventName(event), (data) => {
-            debounceUntil(() => {
-                window[this.configs.dataLayer].push(data);
-            }, () => {
-                return this.configs.ready;
-            });
-        });
+	registerEvent(event) {
+		this.eventService.subscribe(this.getEventName(event), (data) => {
+			debounceUntil(() => {
+				window[this.configs.dataLayer].push(data);
+			}, () => {
+				return this.configs.ready;
+			});
+		});
 
-        this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true)}`] = (data) => {
-            return this.trigger(event, data);
-        }
+		this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true)}`] = (data) => {
+			return this.trigger(event, data);
+		};
 
-        return this;
-    }
+		return this;
+	}
 
-    trigger(event, data = {}) {
-        this.eventService.publish(this.getEventName(event), this.mapperService.map(data, this.getEventModel(event)));
+	trigger(event, data = {}) {
+		this.eventService.publish(this.getEventName(event), this.mapperService.map(data, this.getEventModel(event)));
 
-        return this;
-    }
+		return this;
+	}
 
-    getEventName(event, withPrefix = true) {
-        const prefix = withPrefix ? this.configs.get('eventPrefix', '') : '';
-        return `${prefix}${event}`;
-    }
+	getEventName(event, withPrefix = true) {
+		const prefix = withPrefix ? this.configs.get('eventPrefix', '') : '';
 
-    getEventModel(event) {
-        const eventModel = this.getEventModelClass(event);
+		return `${prefix}${event}`;
+	}
 
-        return new eventModel();
-    }
+	getEventModel(event) {
+		const EventModel = this.getEventModelClass(event);
 
-    getEventModelClass(event) {
-        const eventCollection = this.configs.events;
+		return new EventModel();
+	}
 
-        for (let i = eventCollection.length - 1; i >= 0; i--) {
-            if (this.getCleanEventName(eventCollection[i]) == event) {
-                return eventCollection[i];
-            }
-        }
+	getEventModelClass(event) {
+		const eventCollection = this.configs.events;
 
-        for(let j = 0; j < eventCollection.length; j++) {
-            if (/^[dD]efault/.test(eventCollection[j].name)) {
-                return eventCollection[j];
-            }
-        }
+		for (let i = eventCollection.length - 1; i >= 0; i--) {
+			if (this.getCleanEventName(eventCollection[i]) === event) {
+				return eventCollection[i];
+			}
+		}
 
-        return eventCollection[0];
-    }
+		for (let j = 0; j < eventCollection.length; j++) {
+			if (/^[dD]efault/.test(eventCollection[j].name)) {
+				return eventCollection[j];
+			}
+		}
 
-    getCleanEventName(event, toPascalCase = false) {
-        const cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
-        return `${cleanName.charAt(0)[`to${(toPascalCase ? 'Upper' : 'Lower')}Case`]()}${cleanName.slice(1)}`;
-    }
+		return eventCollection[0];
+	}
+
+	getCleanEventName(event, toPascalCase = false) {
+		const cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
+
+		return `${cleanName.charAt(0)[`to${(toPascalCase ? 'Upper' : 'Lower')}Case`]()}${cleanName.slice(1)}`;
+	}
+
 };
