@@ -17,11 +17,11 @@ module.exports = class GoogleEnhancedEcommerceService {
             debounceUntil(() => {
                 window[this.configs.dataLayer].push(data);
             }, () => {
-                return this.configs.ready && this.configs.ga && window[this.configs.ga];
+                return this.configs.ready;
             });
         });
 
-        this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true).replace(/(Event)?Model$/, '')}`] = (data) => {
+        this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true)}`] = (data) => {
             return this.trigger(event, data);
         }
 
@@ -68,4 +68,3 @@ module.exports = class GoogleEnhancedEcommerceService {
         return `${cleanName.charAt(0)[`to${(toPascalCase ? 'Upper' : 'Lower')}Case`]()}${cleanName.slice(1)}`;
     }
 };
-

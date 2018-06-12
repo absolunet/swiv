@@ -1,4 +1,4 @@
-const debounceUntil = function(callback, rule, delay = 0) {
+const debounceUntil = (callback, rule, delay = 0) => {
 
     const _rule = typeof rule === 'function' ? rule : () => {
         return true;

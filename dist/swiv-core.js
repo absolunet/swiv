@@ -511,8 +511,8 @@ module.exports = function (_AbstractDataModel) {
 /* 8 */
 /***/ (function(module, exports) {
 
+var _arguments = arguments;
 var debounceUntil = function debounceUntil(callback, rule) {
-    var _arguments = arguments;
     var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 
@@ -540,6 +540,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var NotimplementedError = __webpack_require__(6);
+
 module.exports = function () {
     function QueuableServiceFactory() {
         _classCallCheck(this, QueuableServiceFactory);
@@ -568,7 +569,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractServiceFactory = __webpack_require__(9);
-var NoQueueServiceError = __webpack_require__(36);
+var NoQueueServiceError = __webpack_require__(35);
 
 module.exports = function (_AbstractServiceFacto) {
     _inherits(AbstractQueuableServiceFactory, _AbstractServiceFacto);
@@ -628,10 +629,7 @@ module.exports = {
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(15);
-var GeeFactory = __webpack_require__(33);
-
-module.exports = new GeeFactory();
+module.exports = __webpack_require__(15);
 
 /***/ }),
 /* 15 */
@@ -639,14 +637,15 @@ module.exports = new GeeFactory();
 
 var configs = __webpack_require__(1);
 var debounceUntil = __webpack_require__(8);
-var isGaInitialized = __webpack_require__(32);
+var GeeFactory = __webpack_require__(32);
 
 debounceUntil(function () {
-    window[configs.ga]('require', 'ec');
     configs.set('ready', true);
 }, function () {
-    return isGaInitialized(configs);
+    return configs.gtm && window[configs.gtm] !== null;
 });
+
+module.exports = new GeeFactory();
 
 /***/ }),
 /* 16 */
@@ -654,8 +653,7 @@ debounceUntil(function () {
 
 module.exports = {
     dataLayer: 'dataLayer',
-    ga: 'ga',
-    gtag: 'gtag',
+    gtm: 'google_tag_manager',
     eventPrefix: 'gee.',
     gaPrefix: 'ec:',
     events: [__webpack_require__(17), __webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(23), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31)]
@@ -1363,16 +1361,6 @@ module.exports = function (_AbstractEventModel) {
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports) {
-
-module.exports = function () {
-    var configs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    return configs.ga && typeof window[configs.ga] === 'function';
-};
-
-/***/ }),
-/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1384,10 +1372,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var FactoryContract = __webpack_require__(9);
-var GoogleEnhancedEcommerceService = __webpack_require__(34);
+var GoogleEnhancedEcommerceService = __webpack_require__(33);
 
-var eventServiceFactory = new (__webpack_require__(35))();
-var mapperServiceFactory = new (__webpack_require__(38))();
+var eventServiceFactory = new (__webpack_require__(34))();
+var mapperServiceFactory = new (__webpack_require__(37))();
 var configs = __webpack_require__(1);
 
 var _singleton = void 0;
@@ -1435,7 +1423,7 @@ module.exports = function (_FactoryContract) {
 }(FactoryContract);
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1468,11 +1456,11 @@ module.exports = function () {
                 debounceUntil(function () {
                     window[_this2.configs.dataLayer].push(data);
                 }, function () {
-                    return _this2.configs.ready && _this2.configs.ga && window[_this2.configs.ga];
+                    return _this2.configs.ready;
                 });
             });
 
-            this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true).replace(/(Event)?Model$/, '')] = function (data) {
+            this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true)] = function (data) {
                 return _this2.trigger(event, data);
             };
 
@@ -1535,7 +1523,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1545,7 +1533,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractQueuableServiceFactory = __webpack_require__(10);
-var DefaultEventService = __webpack_require__(37);
+var DefaultEventService = __webpack_require__(36);
 
 module.exports = function (_AbstractQueuableServ) {
     _inherits(EventServiceFactory, _AbstractQueuableServ);
@@ -1563,7 +1551,7 @@ module.exports = function (_AbstractQueuableServ) {
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1587,7 +1575,7 @@ module.exports = function (_Error) {
 }(Error);
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1643,7 +1631,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1653,7 +1641,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractQueuableServiceFactory = __webpack_require__(10);
-var DefaultMapperService = __webpack_require__(39);
+var DefaultMapperService = __webpack_require__(38);
 
 module.exports = function (_AbstractQueuableServ) {
     _inherits(MapperServiceFactory, _AbstractQueuableServ);
@@ -1671,7 +1659,7 @@ module.exports = function (_AbstractQueuableServ) {
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

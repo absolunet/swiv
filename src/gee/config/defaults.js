@@ -1,7 +1,6 @@
 module.exports = {
     dataLayer: 'dataLayer',
-    ga: 'ga',
-    gtag: 'gtag',
+    gtm: 'google_tag_manager',
     eventPrefix: 'gee.',
     gaPrefix: 'ec:',
     events: [
