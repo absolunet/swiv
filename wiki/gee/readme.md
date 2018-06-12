@@ -1,5 +1,5 @@
 # Google Enhanced Ecommerce
-[_Swiv_](../../) > [_Wiki_](../)
+[_Swiv_](../../readme.md) > [_Wiki_](../)
 
 - Google Enhanced Ecommerce
     - [Singletons](singletons)
