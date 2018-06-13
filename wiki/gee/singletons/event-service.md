@@ -9,7 +9,7 @@
 
 The EventService must implements at least these three method: `publish()`, `subscribe()` and `unsubscribe()`.
 The default EventService is a simple dictionnary of callbacks. There are better Pub/Sub library available to use.
-We recommend using [Absolunet's Pinky message](https://github.com/absolunet/pinki) or [PubSubJS](https://github.com/mroderick/PubSubJS), but feel free to use another library implement your own.
+We recommend using <a href="https://github.com/absolunet/pinki" target="_blank">Absolunet's Pinky message</a> or <a href="https://github.com/mroderick/PubSubJS" target="_blank">PubSubJS</a>, but feel free to use another library implement your own.
 
 ```javascript
 /**

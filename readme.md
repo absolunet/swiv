@@ -12,7 +12,7 @@ It can be implemented anywhere, from a VanillaJS environment to a PWA built on t
 
 ## Requirements
 - Google Tag Manager account and integration tag
-- Nothing else! Just take a small cup of [kafe](https://github.com/absolunet/kafe) before getting started.
+- Nothing else! Just take a small cup of <a href="https://github.com/absolunet/kafe" target="_blank">kafe</a> before getting started.
 
 
 ## Getting started

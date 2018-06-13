@@ -9,7 +9,7 @@
 
 To trigger a Google Enhanced Ecommerce event, you may first instanciate the service after configurate your services and configuration. It is to note that this service is a singleton, so this method can be use as many times as wanted.
 
-When you have your service, you can trigger any event (Ecommerce Measurement) as described in [Google Enhanced Ecommerce documentation](https://developers.google.com/tag-manager/enhanced-ecommerce)
+When you have your service, you can trigger any event (Ecommerce Measurement) as described in <a href="https://developers.google.com/tag-manager/enhanced-ecommerce" target="_blank">Google Enhanced Ecommerce documentation</a>
 
 ```javascript
 // Get singleton
