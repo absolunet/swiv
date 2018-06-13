@@ -14,6 +14,8 @@ We recommend using <a href="https://github.com/absolunet/pinki" target="_blank">
 ```javascript
 /**
  * @method publish
+ * 
+ * Dispatch an event to all of the subscribers.
  *
  * @param {string} event The event name to publish.
  * @param {object} [data={}] The raw object to dispatch within the event.
@@ -25,6 +27,8 @@ EventService.prototype.publish = (event, data = {}) => { /*...*/ };
 /**
  * @method subscribe
  * 
+ * Subscribe to a given event and register the callback to execute when the event fires.
+ * 
  * @param {string} event The event name to subscribe to.
  * @param {function} callack The callback to execute when the subscribed event is triggered.
  * 
@@ -34,6 +38,8 @@ EventService.prototype.subscribe = (event, callback) => { /*...*/ };
 
 /**
  * @method unsubscribe
+ * 
+ * Unsubscribe to an event by giving the token that identifies the subscription.
  * 
  * @param {string} token The token that identified a subscriber.
  * 

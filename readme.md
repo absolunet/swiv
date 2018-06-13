@@ -16,14 +16,24 @@ It can be implemented anywhere, from a VanillaJS environment to a PWA built on t
 
 
 ## Getting started
-TBD
 
+You will need to add the script to your bundle (compiled with Gulp, Webpack, [Nwayo](https://github.com/absolunet/nwayo), whatever bundler you like) or directly add the script in your html pages.
+
+```html
+<script async src="/path/to/swiv/dist/swiv-core.js"></script><!-- Development -->
+<!-- Or -->
+<script async src="/path/to/swiv/dist/swiv-core.min.js"></script><!-- Production -->
+```
+
+You can use it as is, but it is recommended to use a dedicated mapper service for your data model and an implementation module to easily integrate the core module.
+
+Happily, you can use complementary packages provided in the Swiv project (see packages below)
 
 ## Packages
 
-- [Swiv Core](wiki)
+- Swiv Core
     - [Google Enhanced Ecommerce](wiki/gee)
-- [Swiv Map - Insite](https://github.com/absolunet/swiv-map-insite/tree/master/wiki)
+- [Swiv Map - Insite](https://github.com/absolunet/swiv-map-insite)
     - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-map-insite/tree/master/wiki/gee)
-- [Swiv App - Insite AngularJS](https://github.com/absolunet/swiv-app-insiteangular/tree/master/wiki)
+- [Swiv App - Insite AngularJS](https://github.com/absolunet/swiv-app-insiteangular)
     - [Google Enhanced Ecommerce](https://github.com/absolunet/swiv-app-insiteangular/tree/master/wiki/gee)

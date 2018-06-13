@@ -23,5 +23,28 @@ If the data is manually sent from custom JS, the mapper shouldn't be necessary i
  * 
  * @returns {AbstractEventModel|{}} The data to send to Google Enhanced Ecommerce
  */
-MapperService.prototype.map = (data, event) => { /*...*/ };
+MapperService.prototype.map = (data, event) => {
+    // Example of a product mapping in a ProductImpressionEventModel.
+    // ProductImpressionEventModel main data type is ProductDataModel.
+    switch(event.getMainDataType()) {
+        case ProdutDataModel:
+            // main data in a ProductImpressionEventModel is located to: 'ecommerce.impressions"
+            event.setMainData({
+                id: data.id, // "ABC-123"
+                name: data.name, // "The product name"
+                price: data.price.regular, // 12.34
+                category: data.categories.map((category) => {
+                    return category.name; // "foo", "bar" and "baz"
+                }).join('/') // "foo/bar/baz"
+            });
+            break;
+
+        default:
+            // If the mapper don't handle an event, simply return the event with the given data as its main data
+            event.setMainData(data);
+            break;
+    }
+
+    return event;
+};
 ```
