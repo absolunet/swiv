@@ -1499,7 +1499,11 @@ module.exports = function () {
 		value: function trigger(event) {
 			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-			this.eventService.publish(this.getEventName(event), this.mapperService.map(data, this.getEventModel(event)));
+			var mappedData = this.mapperService.map(data, this.getEventModel(event));
+
+			if (mappedData && Object.keys(mappedData).length > 0) {
+				this.eventService.publish(this.getEventName(event), mappedData);
+			}
 
 			return this;
 		}
