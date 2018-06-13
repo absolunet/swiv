@@ -21,10 +21,10 @@ const product = {
 };
 
 // Trigger the event manually.
-geeService.trigger('impressions', product);
+geeService.trigger('productImpression', product);
 
 // Trigger the event with a defined method
-geeService.triggerImpressions(product);
+geeService.triggerProductImpression(product);
 
 // Get another product
 const anotherProduct = {

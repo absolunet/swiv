@@ -115,8 +115,7 @@ module.exports = function (_AbstractModel) {
 						console.warn('The main data does not fit the expected type: ' + this.getMainDataType().name);
 					}
 				}
-
-				if (container[lastKey] && container[lastKey].constructor === Array) {
+				if (container[lastKey] && container[lastKey].constructor === Array && data.constructor !== Array) {
 					container[lastKey].push(data);
 				} else {
 					container[lastKey] = data;
@@ -920,22 +919,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ImpressionModel = __webpack_require__(24);
+var ProductDataModel = __webpack_require__(24);
 
 module.exports = function (_AbstractEventModel) {
-	_inherits(ImpressionEventModel, _AbstractEventModel);
+	_inherits(ProductImpressionEventModel, _AbstractEventModel);
 
-	function ImpressionEventModel() {
-		_classCallCheck(this, ImpressionEventModel);
+	function ProductImpressionEventModel() {
+		_classCallCheck(this, ProductImpressionEventModel);
 
-		return _possibleConstructorReturn(this, (ImpressionEventModel.__proto__ || Object.getPrototypeOf(ImpressionEventModel)).apply(this, arguments));
+		return _possibleConstructorReturn(this, (ProductImpressionEventModel.__proto__ || Object.getPrototypeOf(ProductImpressionEventModel)).apply(this, arguments));
 	}
 
-	_createClass(ImpressionEventModel, [{
+	_createClass(ProductImpressionEventModel, [{
 		key: 'getDefaultModelData',
 		value: function getDefaultModelData() {
 			return {
-				event: 'impressions',
+				event: 'productImpression',
 				ecommerce: {
 					currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
 					impressions: []
@@ -950,14 +949,14 @@ module.exports = function (_AbstractEventModel) {
 	}, {
 		key: 'getMainDataType',
 		value: function getMainDataType() {
-			return ImpressionModel;
+			return ProductDataModel;
 		}
 	}]);
 
-	return ImpressionEventModel;
+	return ProductImpressionEventModel;
 }(AbstractEventModel);
 
-module.exports.eventName = 'ImpressionEventModel';
+module.exports.eventName = 'ProductImpressionEventModel';
 
 /***/ }),
 /* 24 */

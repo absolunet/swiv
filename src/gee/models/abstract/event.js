@@ -27,8 +27,7 @@ module.exports = class AbstractEventModel extends AbstractModel {
 					console.warn(`The main data does not fit the expected type: ${this.getMainDataType().name}`);
 				}
 			}
-
-			if (container[lastKey] && container[lastKey].constructor === Array) {
+			if (container[lastKey] && container[lastKey].constructor === Array && data.constructor !== Array) {
 				container[lastKey].push(data);
 			} else {
 				container[lastKey] = data;
