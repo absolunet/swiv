@@ -9,7 +9,7 @@ module.exports = class CheckoutEventModel extends AbstractEventModel {
 			ecommerce: {
 				actionField: {
 					step: 1,
-					option: require('./../../config').get('defaultCreditCard', '')
+					option: this.getConfigRepository().get('defaultCreditCard', '')
 				},
 				products: []
 			},

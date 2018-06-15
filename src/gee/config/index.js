@@ -1,15 +1,15 @@
 const defaultConfigs = require('./defaults');
 
-const _constants = {};
+const _config = {};
 
 class ConfigRepository {
 
 	get(key, defaultValue = null) {
-		return this.has(key) ? _constants[key] : defaultValue;
+		return this.has(key) ? _config[key] : defaultValue;
 	}
 
 	set(key, value) {
-		_constants[key] = value;
+		_config[key] = value;
 
 		if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
 			Object.defineProperty(this, key, {
@@ -26,11 +26,11 @@ class ConfigRepository {
 	}
 
 	has(key) {
-		return typeof _constants[key] !== 'undefined';
+		return typeof _config[key] !== 'undefined';
 	}
 
 	remove(key) {
-		delete _constants[key];
+		delete _config[key];
 
 		return this;
 	}
@@ -38,9 +38,9 @@ class ConfigRepository {
 	all() {
 		const constantsCopy = {};
 
-		for (const key in _constants) {
-			if (typeof _constants[key] !== 'undefined') {
-				constantsCopy[key] = _constants[key];
+		for (const key in _config) {
+			if (typeof _config[key] !== 'undefined') {
+				constantsCopy[key] = _config[key];
 			}
 		}
 

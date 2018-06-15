@@ -36,7 +36,7 @@ const anotherProduct = {
 geeService.triggerProductImpression([product, anotherProduct]);
 ```
 
-To see all of the events that can be trigger, see [the model list here](../../../src/gee/models/event). Those events are triggered with camelCase name.
+To see all of the events that can be trigger, see [the model list here](../../../src/gee/model/event). Those events are triggered with camelCase name.
 
 ```javascript
 // To trigger the event defined in the AddToCartEventModel class in 'add-to-cart.js', the event to call is 'addToCart'

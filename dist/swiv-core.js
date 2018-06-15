@@ -76,9 +76,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractModel = __webpack_require__(5);
-var NotImplementedError = __webpack_require__(6);
+var NotImplementedError = __webpack_require__(6).default;
 var resolve = __webpack_require__(18);
 var filter = __webpack_require__(19);
+var configs = __webpack_require__(2);
 
 module.exports = function (_AbstractModel) {
 	_inherits(AbstractEventModel, _AbstractModel);
@@ -110,7 +111,7 @@ module.exports = function (_AbstractModel) {
 				});
 
 				if (!isOfMainType) {
-					if (__webpack_require__(1).get('debug', false)) {
+					if (configs.get('debug', false)) {
 						// eslint-disable-next-line no-console
 						console.warn('The main data does not fit the expected type: ' + this.getMainDataType().name);
 					}
@@ -174,11 +175,56 @@ module.exports.getEventName = function () {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ImpressionDataModel = __webpack_require__(7);
+
+module.exports = function (_ImpressionDataModel) {
+	_inherits(ProductDataModel, _ImpressionDataModel);
+
+	function ProductDataModel() {
+		_classCallCheck(this, ProductDataModel);
+
+		return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
+	}
+
+	_createClass(ProductDataModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			var data = _get(ProductDataModel.prototype.__proto__ || Object.getPrototypeOf(ProductDataModel.prototype), 'getDefaultModelData', this).call(this);
+			var additionalData = {
+				quantity: 1,
+				coupon: ''
+			};
+
+			Object.keys(additionalData).forEach(function (k) {
+				data[k] = additionalData[k];
+			});
+
+			return data;
+		}
+	}]);
+
+	return ProductDataModel;
+}(ImpressionDataModel);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var defaultConfigs = __webpack_require__(16);
 
-var _constants = {};
+var _config = {};
 
 var ConfigRepository = function () {
 	function ConfigRepository() {
@@ -190,12 +236,12 @@ var ConfigRepository = function () {
 		value: function get(key) {
 			var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			return this.has(key) ? _constants[key] : defaultValue;
+			return this.has(key) ? _config[key] : defaultValue;
 		}
 	}, {
 		key: 'set',
 		value: function set(key, value) {
-			_constants[key] = value;
+			_config[key] = value;
 
 			if (!(Object.getOwnPropertyDescriptor(this, key) || {}).get) {
 				Object.defineProperty(this, key, {
@@ -213,12 +259,12 @@ var ConfigRepository = function () {
 	}, {
 		key: 'has',
 		value: function has(key) {
-			return typeof _constants[key] !== 'undefined';
+			return typeof _config[key] !== 'undefined';
 		}
 	}, {
 		key: 'remove',
 		value: function remove(key) {
-			delete _constants[key];
+			delete _config[key];
 
 			return this;
 		}
@@ -227,9 +273,9 @@ var ConfigRepository = function () {
 		value: function all() {
 			var constantsCopy = {};
 
-			for (var key in _constants) {
-				if (typeof _constants[key] !== 'undefined') {
-					constantsCopy[key] = _constants[key];
+			for (var key in _config) {
+				if (typeof _config[key] !== 'undefined') {
+					constantsCopy[key] = _config[key];
 				}
 			}
 
@@ -249,62 +295,6 @@ for (var key in defaultConfigs) {
 }
 
 module.exports = configs;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AbstractDataModel = __webpack_require__(3);
-
-module.exports = function (_AbstractDataModel) {
-	_inherits(ProductDataModel, _AbstractDataModel);
-
-	function ProductDataModel() {
-		_classCallCheck(this, ProductDataModel);
-
-		return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
-	}
-
-	_createClass(ProductDataModel, [{
-		key: 'getDefaultModelData',
-		value: function getDefaultModelData() {
-			return {
-				name: '',
-				id: '',
-				brand: '',
-				category: '',
-				variant: '',
-				list: '',
-				position: 1,
-				price: 0,
-				quantity: 1,
-				coupon: ''
-			};
-		}
-	}, {
-		key: 'getRequiredFields',
-		value: function getRequiredFields() {
-			return {
-				id: function id(product) {
-					return !product.name;
-				},
-				name: function name(product) {
-					return !product.id;
-				}
-			};
-		}
-	}]);
-
-	return ProductDataModel;
-}(AbstractDataModel);
 
 /***/ }),
 /* 3 */
@@ -365,7 +355,7 @@ module.exports = function (_AbstractDataModel) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -373,12 +363,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var _configs = void 0;
+
 module.exports = function () {
 	function AbstractModel() {
 		var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 		_classCallCheck(this, AbstractModel);
 
+		_configs = _configs || __webpack_require__(2);
 		this.map(this.getDefaultModelData()).map(data);
 	}
 
@@ -417,6 +410,11 @@ module.exports = function () {
 			}
 
 			return data;
+		}
+	}, {
+		key: 'getConfigRepository',
+		value: function getConfigRepository() {
+			return _configs;
 		}
 	}, {
 		key: 'getWhitelistedFunctions',
@@ -478,6 +476,60 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AbstractDataModel = __webpack_require__(3);
 
 module.exports = function (_AbstractDataModel) {
+	_inherits(ImpressionDataModel, _AbstractDataModel);
+
+	function ImpressionDataModel() {
+		_classCallCheck(this, ImpressionDataModel);
+
+		return _possibleConstructorReturn(this, (ImpressionDataModel.__proto__ || Object.getPrototypeOf(ImpressionDataModel)).apply(this, arguments));
+	}
+
+	_createClass(ImpressionDataModel, [{
+		key: 'getDefaultModelData',
+		value: function getDefaultModelData() {
+			return {
+				name: '',
+				id: '',
+				brand: '',
+				category: '',
+				variant: '',
+				list: '',
+				position: 1,
+				price: 0
+			};
+		}
+	}, {
+		key: 'getRequiredFields',
+		value: function getRequiredFields() {
+			return {
+				id: function id(product) {
+					return !product.name;
+				},
+				name: function name(product) {
+					return !product.id;
+				}
+			};
+		}
+	}]);
+
+	return ImpressionDataModel;
+}(AbstractDataModel);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AbstractDataModel = __webpack_require__(3);
+
+module.exports = function (_AbstractDataModel) {
 	_inherits(PromotionDataModel, _AbstractDataModel);
 
 	function PromotionDataModel() {
@@ -509,30 +561,6 @@ module.exports = function (_AbstractDataModel) {
 
 	return PromotionDataModel;
 }(AbstractDataModel);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-var _arguments = arguments;
-var debounceUntil = function debounceUntil(callback, rule) {
-	var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-
-	var _rule = typeof rule === 'function' ? rule : function () {
-		return true;
-	};
-
-	setTimeout(function () {
-		if (_rule()) {
-			callback();
-		} else {
-			debounceUntil.apply(undefined, _arguments);
-		}
-	}, delay);
-};
-
-module.exports = debounceUntil;
 
 /***/ }),
 /* 9 */
@@ -572,7 +600,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractServiceFactory = __webpack_require__(9);
-var NoQueueServiceError = __webpack_require__(35);
+var NoQueueServiceError = __webpack_require__(34);
 
 module.exports = function (_AbstractServiceFacto) {
 	_inherits(AbstractQueuableServiceFactory, _AbstractServiceFacto);
@@ -638,15 +666,8 @@ module.exports = __webpack_require__(15);
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var configs = __webpack_require__(1);
-var debounceUntil = __webpack_require__(8);
-var GeeFactory = __webpack_require__(32);
-
-debounceUntil(function () {
-	configs.set('ready', true);
-}, function () {
-	return configs.gtm && window[configs.gtm] !== null;
-});
+__webpack_require__(2);
+var GeeFactory = __webpack_require__(31);
 
 module.exports = new GeeFactory();
 
@@ -657,9 +678,8 @@ module.exports = new GeeFactory();
 module.exports = {
 	dataLayer: 'dataLayer',
 	gtm: 'google_tag_manager',
-	eventPrefix: 'gee.',
-	gaPrefix: 'ec:',
-	events: [__webpack_require__(17), __webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(23), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30), __webpack_require__(31)]
+	eventPrefix: 'swiv.gee.',
+	events: [__webpack_require__(17), __webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(23), __webpack_require__(24), __webpack_require__(25), __webpack_require__(26), __webpack_require__(27), __webpack_require__(28), __webpack_require__(29), __webpack_require__(30)]
 };
 
 /***/ }),
@@ -753,7 +773,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ProductModel = __webpack_require__(2);
+var ProductModel = __webpack_require__(1);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(AddToCartEventModel, _AbstractEventModel);
@@ -770,7 +790,7 @@ module.exports = function (_AbstractEventModel) {
 			return {
 				event: 'addToCart',
 				ecommerce: {
-					currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
+					currencyCode: this.getConfigRepository().get('currencyCode', 'USD'),
 					add: {
 						products: []
 					}
@@ -807,7 +827,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ProductModel = __webpack_require__(2);
+var ProductModel = __webpack_require__(1);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(CheckoutEventModel, _AbstractEventModel);
@@ -826,7 +846,7 @@ module.exports = function (_AbstractEventModel) {
 				ecommerce: {
 					actionField: {
 						step: 1,
-						option: __webpack_require__(1).get('defaultCreditCard', '')
+						option: this.getConfigRepository().get('defaultCreditCard', '')
 					},
 					products: []
 				},
@@ -883,7 +903,7 @@ module.exports = function (_AbstractEventModel) {
 					checkout_option: { // eslint-disable-line camelcase
 						actionField: {
 							step: 1,
-							option: __webpack_require__(1).get('defaultCreditCard', '')
+							option: this.getConfigRepository().get('defaultCreditCard', '')
 						}
 					}
 				}
@@ -919,7 +939,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ProductDataModel = __webpack_require__(24);
+var ImpressionDataModel = __webpack_require__(7);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(ProductImpressionEventModel, _AbstractEventModel);
@@ -936,7 +956,7 @@ module.exports = function (_AbstractEventModel) {
 			return {
 				event: 'productImpression',
 				ecommerce: {
-					currencyCode: __webpack_require__(1).get('currencyCode', 'USD'),
+					currencyCode: this.getConfigRepository().get('currencyCode', 'USD'),
 					impressions: []
 				}
 			};
@@ -949,7 +969,7 @@ module.exports = function (_AbstractEventModel) {
 	}, {
 		key: 'getMainDataType',
 		value: function getMainDataType() {
-			return ProductDataModel;
+			return ImpressionDataModel;
 		}
 	}]);
 
@@ -970,62 +990,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var AbstractDataModel = __webpack_require__(3);
-
-module.exports = function (_AbstractDataModel) {
-	_inherits(ProductDataModel, _AbstractDataModel);
-
-	function ProductDataModel() {
-		_classCallCheck(this, ProductDataModel);
-
-		return _possibleConstructorReturn(this, (ProductDataModel.__proto__ || Object.getPrototypeOf(ProductDataModel)).apply(this, arguments));
-	}
-
-	_createClass(ProductDataModel, [{
-		key: 'getDefaultModelData',
-		value: function getDefaultModelData() {
-			return {
-				name: '',
-				id: '',
-				brand: '',
-				category: '',
-				variant: '',
-				list: '',
-				position: 1,
-				price: 0
-			};
-		}
-	}, {
-		key: 'getRequiredFields',
-		value: function getRequiredFields() {
-			return {
-				id: function id(product) {
-					return !product.name;
-				},
-				name: function name(product) {
-					return !product.id;
-				}
-			};
-		}
-	}]);
-
-	return ProductDataModel;
-}(AbstractDataModel);
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var AbstractEventModel = __webpack_require__(0);
-var ProductModel = __webpack_require__(2);
+var ProductModel = __webpack_require__(1);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(ProductClickEventModel, _AbstractEventModel);
@@ -1068,7 +1034,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'ProductClickEventModel';
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1080,7 +1046,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ProductModel = __webpack_require__(2);
+var ProductModel = __webpack_require__(1);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(ProductDetailEventModel, _AbstractEventModel);
@@ -1122,7 +1088,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'ProductDetailEventModel';
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1134,7 +1100,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var PromotionModel = __webpack_require__(7);
+var PromotionModel = __webpack_require__(8);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(PromoClickEventModel, _AbstractEventModel);
@@ -1176,7 +1142,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'PromoClickEventModel';
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1188,7 +1154,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var PromotionModel = __webpack_require__(7);
+var PromotionModel = __webpack_require__(8);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(PromoViewEventModel, _AbstractEventModel);
@@ -1229,7 +1195,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'PromoViewEventModel';
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1282,7 +1248,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'PurchaseEventModel';
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1335,7 +1301,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'RefundEventModel';
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1347,7 +1313,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractEventModel = __webpack_require__(0);
-var ProductModel = __webpack_require__(2);
+var ProductModel = __webpack_require__(1);
 
 module.exports = function (_AbstractEventModel) {
 	_inherits(RemoveFromCartEventModel, _AbstractEventModel);
@@ -1388,7 +1354,7 @@ module.exports = function (_AbstractEventModel) {
 module.exports.eventName = 'RemoveFromCartEventModel';
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1400,11 +1366,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var FactoryContract = __webpack_require__(9);
-var GoogleEnhancedEcommerceService = __webpack_require__(33);
+var GoogleEnhancedEcommerceService = __webpack_require__(32);
 
-var eventServiceFactory = new (__webpack_require__(34))();
-var mapperServiceFactory = new (__webpack_require__(37))();
-var configs = __webpack_require__(1);
+var eventServiceFactory = new (__webpack_require__(33))();
+var mapperServiceFactory = new (__webpack_require__(36))();
+var configs = __webpack_require__(2);
 
 var _singleton = void 0;
 
@@ -1451,14 +1417,12 @@ module.exports = function (_FactoryContract) {
 }(FactoryContract);
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 32 */
+/***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var debounceUntil = __webpack_require__(8);
 
 module.exports = function () {
 	function GoogleEnhancedEcommerceService(eventService, mapperService, configs) {
@@ -1481,11 +1445,7 @@ module.exports = function () {
 			var _this2 = this;
 
 			this.eventService.subscribe(this.getEventName(event), function (data) {
-				debounceUntil(function () {
-					window[_this2.configs.dataLayer].push(data);
-				}, function () {
-					return _this2.configs.ready;
-				});
+				window[_this2.configs.get('dataLayer', 'dataLayer')].push(data);
 			});
 
 			this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true)] = function (data) {
@@ -1526,7 +1486,7 @@ module.exports = function () {
 	}, {
 		key: 'getEventModelClass',
 		value: function getEventModelClass(event) {
-			var eventCollection = this.configs.events;
+			var eventCollection = this.configs.get('events', []);
 
 			for (var i = eventCollection.length - 1; i >= 0; i--) {
 				if (this.getCleanEventName(eventCollection[i]) === event) {
@@ -1557,7 +1517,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1567,7 +1527,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractQueuableServiceFactory = __webpack_require__(10);
-var DefaultEventService = __webpack_require__(36);
+var DefaultEventService = __webpack_require__(35);
 
 module.exports = function (_AbstractQueuableServ) {
 	_inherits(EventServiceFactory, _AbstractQueuableServ);
@@ -1585,7 +1545,7 @@ module.exports = function (_AbstractQueuableServ) {
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1609,7 +1569,7 @@ module.exports = function (_Error) {
 }(Error);
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1665,7 +1625,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1675,7 +1635,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractQueuableServiceFactory = __webpack_require__(10);
-var DefaultMapperService = __webpack_require__(38);
+var DefaultMapperService = __webpack_require__(37);
 
 module.exports = function (_AbstractQueuableServ) {
 	_inherits(MapperServiceFactory, _AbstractQueuableServ);
@@ -1693,7 +1653,7 @@ module.exports = function (_AbstractQueuableServ) {
 }(AbstractQueuableServiceFactory);
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

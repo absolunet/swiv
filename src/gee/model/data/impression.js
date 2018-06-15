@@ -1,6 +1,6 @@
 const AbstractDataModel = require('./../abstract/data');
 
-module.exports = class ProductDataModel extends AbstractDataModel {
+module.exports = class ImpressionDataModel extends AbstractDataModel {
 
 	getDefaultModelData() {
 		return {

@@ -7,7 +7,7 @@ module.exports = class AddToCartEventModel extends AbstractEventModel {
 		return {
 			event: 'addToCart',
 			ecommerce: {
-				currencyCode: require('./../../config').get('currencyCode', 'USD'),
+				currencyCode: this.getConfigRepository().get('currencyCode', 'USD'),
 				add: {
 					products: []
 				}

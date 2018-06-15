@@ -1,20 +1,19 @@
 module.exports = {
 	dataLayer: 'dataLayer',
 	gtm: 'google_tag_manager',
-	eventPrefix: 'gee.',
-	gaPrefix: 'ec:',
+	eventPrefix: 'swiv.gee.',
 	events: [
-		require('./../models/event/default'),
-		require('./../models/event/add-to-cart'),
-		require('./../models/event/checkout'),
-		require('./../models/event/checkout-option'),
-		require('./../models/event/impression'),
-		require('./../models/event/product-click'),
-		require('./../models/event/product-detail'),
-		require('./../models/event/promo-click'),
-		require('./../models/event/promo-view'),
-		require('./../models/event/purchase'),
-		require('./../models/event/refund'),
-		require('./../models/event/remove-from-cart')
+		require('./../model/event/default'),
+		require('./../model/event/add-to-cart'),
+		require('./../model/event/checkout'),
+		require('./../model/event/checkout-option'),
+		require('./../model/event/impression'),
+		require('./../model/event/product-click'),
+		require('./../model/event/product-detail'),
+		require('./../model/event/promo-click'),
+		require('./../model/event/promo-view'),
+		require('./../model/event/purchase'),
+		require('./../model/event/refund'),
+		require('./../model/event/remove-from-cart')
 	]
 };

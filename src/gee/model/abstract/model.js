@@ -1,6 +1,9 @@
+let _configs;
+
 module.exports = class AbstractModel {
 
 	constructor(data = {}) {
+		_configs = _configs || require('./../../config');
 		this.map(this.getDefaultModelData()).map(data);
 	}
 
@@ -35,6 +38,10 @@ module.exports = class AbstractModel {
 		}
 
 		return data;
+	}
+
+	getConfigRepository() {
+		return _configs;
 	}
 
 	getWhitelistedFunctions() {

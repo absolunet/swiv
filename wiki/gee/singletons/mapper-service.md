@@ -18,8 +18,8 @@ If the data is manually sent from custom JS, the mapper shouldn't be necessary i
  * 
  * @param {{}} data The data to map.
  * @param {AbstractEventModel} event The triggered event model. This object represents the data to send to Google Enhanced Ecommerce through the DataLayer.
- * @see https://github.com/absolunet/swiv/blob/master/src/gee/models/abstract/event.js
- * @see https://github.com/absolunet/swiv/tree/master/src/gee/models/event
+ * @see https://github.com/absolunet/swiv/blob/master/src/gee/model/abstract/event.js
+ * @see https://github.com/absolunet/swiv/tree/master/src/gee/model/event
  * 
  * @returns {AbstractEventModel|{}} The data to send to Google Enhanced Ecommerce
  */

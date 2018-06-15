@@ -1,5 +1,3 @@
-const debounceUntil = require('./../utils/debounce-until');
-
 module.exports = class GoogleEnhancedEcommerceService {
 
 	constructor(eventService, mapperService, configs) {
@@ -14,11 +12,7 @@ module.exports = class GoogleEnhancedEcommerceService {
 
 	registerEvent(event) {
 		this.eventService.subscribe(this.getEventName(event), (data) => {
-			debounceUntil(() => {
-				window[this.configs.dataLayer].push(data);
-			}, () => {
-				return this.configs.ready;
-			});
+			window[this.configs.get('dataLayer', 'dataLayer')].push(data);
 		});
 
 		this[`trigger${this.getCleanEventName(this.getEventModelClass(event), true)}`] = (data) => {
@@ -51,7 +45,7 @@ module.exports = class GoogleEnhancedEcommerceService {
 	}
 
 	getEventModelClass(event) {
-		const eventCollection = this.configs.events;
+		const eventCollection = this.configs.get('events', []);
 
 		for (let i = eventCollection.length - 1; i >= 0; i--) {
 			if (this.getCleanEventName(eventCollection[i]) === event) {
