@@ -2,13 +2,14 @@ const AbstractModel = require('./model');
 const NotImplementedError = require('./../../error/not-implemented').default;
 const resolve = require('./../../utils/resolve');
 const filter = require('./../../utils/filter');
-const configs = require('./../../config');
+let _configs;
 
 module.exports = class AbstractEventModel extends AbstractModel {
 
 	constructor() {
 		super();
 		this.mainDataType = Object;
+		_configs = _configs || require('./../../config');
 	}
 
 	setMainData(data = {}) {
@@ -23,7 +24,7 @@ module.exports = class AbstractEventModel extends AbstractModel {
 			});
 
 			if (!isOfMainType) {
-				if (configs.get('debug', false)) {
+				if (_configs.get('debug', false)) {
 					// eslint-disable-next-line no-console
 					console.warn(`The main data does not fit the expected type: ${this.getMainDataType().name}`);
 				}

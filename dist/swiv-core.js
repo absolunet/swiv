@@ -79,7 +79,7 @@ var AbstractModel = __webpack_require__(5);
 var NotImplementedError = __webpack_require__(6).default;
 var resolve = __webpack_require__(18);
 var filter = __webpack_require__(19);
-var configs = __webpack_require__(2);
+var _configs = void 0;
 
 module.exports = function (_AbstractModel) {
 	_inherits(AbstractEventModel, _AbstractModel);
@@ -90,6 +90,7 @@ module.exports = function (_AbstractModel) {
 		var _this = _possibleConstructorReturn(this, (AbstractEventModel.__proto__ || Object.getPrototypeOf(AbstractEventModel)).call(this));
 
 		_this.mainDataType = Object;
+		_configs = _configs || __webpack_require__(2);
 		return _this;
 	}
 
@@ -111,7 +112,7 @@ module.exports = function (_AbstractModel) {
 				});
 
 				if (!isOfMainType) {
-					if (configs.get('debug', false)) {
+					if (_configs.get('debug', false)) {
 						// eslint-disable-next-line no-console
 						console.warn('The main data does not fit the expected type: ' + this.getMainDataType().name);
 					}
