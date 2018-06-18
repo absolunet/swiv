@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
 const fs = require('fs');
 const path = require('path');
+
 require('laravel-mix-eslint');
 
 const distFolderName = 'dist';

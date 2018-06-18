@@ -20,9 +20,9 @@ It can be implemented anywhere, from a VanillaJS environment to a PWA built on t
 You will need to add the script to your bundle (compiled with Gulp, Webpack, [Nwayo](https://github.com/absolunet/nwayo), whatever bundler you like) or directly add the script in your html pages.
 
 ```html
-<script async src="/path/to/swiv/dist/swiv-core.js"></script><!-- Development -->
+<script async src="/path/to/swiv/dist/swiv.js"></script><!-- Development -->
 <!-- Or -->
-<script async src="/path/to/swiv/dist/swiv-core.min.js"></script><!-- Production -->
+<script async src="/path/to/swiv/dist/swiv.min.js"></script><!-- Production -->
 ```
 
 You can use it as is, but it is recommended to use a dedicated mapper service for your data model and an implementation module to easily integrate the core module.

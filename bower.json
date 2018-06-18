@@ -1,11 +1,14 @@
 {
-  "name": "swiv-core",
+  "name": "swiv",
+  "version": "1.0.0-alpha.3",
   "description": "JavaScript plugin to work with Google analytics systems with fluent API",
+  "definition": "JavaScript plugin to work with Google analytics systems with fluent API",
+  "homepage": "https://github.com/absolunet/swiv-app-insiteangular",
   "main": "index.js",
-  "authors": [
-    "Thierry Parent"
-  ],
-  "license": "MIT",
+  "author": {
+    "name": "Absolunet",
+    "url": "https://absolunet.com"
+  },
   "keywords": [
     "swiv",
     "analytics",
@@ -17,12 +20,25 @@
     "manager",
     "absolunet"
   ],
-  "homepage": "https://github.com/absolunet/swiv",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/absolunet/swiv.git"
+  },
+  "bugs": {
+    "url": "https://github.com/absolunet/swiv/issues"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "docs",
+    "wiki",
+    ".editorconfig",
+    ".eslintrc.yaml",
+    ".gitignore",
+    ".travis.yml"
   ]
 }
