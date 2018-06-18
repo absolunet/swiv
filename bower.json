@@ -1,0 +1,28 @@
+{
+  "name": "swiv-core",
+  "description": "JavaScript plugin to work with Google analytics systems with fluent API",
+  "main": "index.js",
+  "authors": [
+    "Thierry Parent"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "swiv",
+    "analytics",
+    "datalayer",
+    "google",
+    "enhanced",
+    "ecommerce",
+    "tag",
+    "manager",
+    "absolunet"
+  ],
+  "homepage": "https://github.com/absolunet/swiv",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
