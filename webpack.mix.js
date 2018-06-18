@@ -8,6 +8,14 @@ const distFolderName = 'dist';
 const distFileName = `${__dirname.split(path.sep).pop()}${mix.inProduction() ? '.min' : ''}.js`;
 
 mix.setPublicPath(distFolderName)
+    .webpackConfig({
+        resolve: {
+            modules: [
+                'node_modules',
+                'bower_components'
+            ]
+        }
+    })
     .eslint()
     .js('index.js', distFileName)
     .then(() => {
