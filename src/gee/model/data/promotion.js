@@ -2,6 +2,10 @@ const AbstractDataModel = require('./../abstract/data');
 
 module.exports = class PromotionDataModel extends AbstractDataModel {
 
+	static get modelName() {
+		return 'PromotionDataModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			id: '',
@@ -14,7 +18,7 @@ module.exports = class PromotionDataModel extends AbstractDataModel {
 	getRequiredFields() {
 		return {
 			id: (promotion, event) => {
-				return ['purchase', 'refund'].indexOf(event.getEventName()) !== -1;
+				return ['purchase', 'refund'].indexOf(event.modelName) !== -1;
 			}
 		};
 	}

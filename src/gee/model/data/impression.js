@@ -2,6 +2,10 @@ const AbstractDataModel = require('./../abstract/data');
 
 module.exports = class ImpressionDataModel extends AbstractDataModel {
 
+	static get modelName() {
+		return 'ImpressionDataModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			name: '',

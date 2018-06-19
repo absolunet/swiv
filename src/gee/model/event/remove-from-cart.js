@@ -3,6 +3,10 @@ const ProductModel = require('./../data/product');
 
 module.exports = class RemoveFromCartEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'RemoveFromCartEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'removeFromCart',
@@ -23,5 +27,3 @@ module.exports = class RemoveFromCartEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'RemoveFromCartEventModel';

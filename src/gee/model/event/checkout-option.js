@@ -3,6 +3,10 @@ const ActionFieldModel = require('./../data/action-field');
 
 module.exports = class CheckoutOptionEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'CheckoutOptionEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'checkoutOption',
@@ -26,5 +30,3 @@ module.exports = class CheckoutOptionEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'CheckoutOptionEventModel';

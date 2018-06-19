@@ -2,6 +2,10 @@ const AbstractEventModel = require('./../abstract/event');
 
 module.exports = class DefaultEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'DefaultEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			ecommerce: {}
@@ -17,5 +21,3 @@ module.exports = class DefaultEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'DefaultEventModel';

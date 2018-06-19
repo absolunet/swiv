@@ -3,6 +3,10 @@ const ActionFieldModel = require('./../data/action-field');
 
 module.exports = class RefundEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'RefundEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'refund',
@@ -23,5 +27,3 @@ module.exports = class RefundEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'RefundEventModel';

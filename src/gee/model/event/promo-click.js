@@ -3,6 +3,10 @@ const PromotionModel = require('./../data/promotion');
 
 module.exports = class PromoClickEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'PromoClickEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'promotionClick',
@@ -24,5 +28,3 @@ module.exports = class PromoClickEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'PromoClickEventModel';

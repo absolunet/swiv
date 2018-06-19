@@ -3,6 +3,10 @@ const ProductModel = require('./../data/product');
 
 module.exports = class ProductDetailEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'ProductDetailEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'productDetail',
@@ -24,5 +28,3 @@ module.exports = class ProductDetailEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'ProductDetailEventModel';

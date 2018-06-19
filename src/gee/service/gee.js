@@ -63,7 +63,7 @@ module.exports = class GoogleEnhancedEcommerceService {
 	}
 
 	getCleanEventName(event, toPascalCase = false) {
-		const cleanName = typeof event.getEventName === 'function' ? event.getEventName() : event.replace(/(Event)?Model$/, '');
+		const cleanName = event.modelName.replace(/(Event)?Model$/, '');
 
 		return `${cleanName.charAt(0)[`to${(toPascalCase ? 'Upper' : 'Lower')}Case`]()}${cleanName.slice(1)}`;
 	}

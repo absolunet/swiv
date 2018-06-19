@@ -3,6 +3,10 @@ const ProductModel = require('./../data/product');
 
 module.exports = class AddToCartEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'AddToCartEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'addToCart',
@@ -24,5 +28,3 @@ module.exports = class AddToCartEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'AddToCartEventModel';

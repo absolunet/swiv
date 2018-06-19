@@ -2,6 +2,10 @@ const ImpressionDataModel = require('./impression');
 
 module.exports = class ProductDataModel extends ImpressionDataModel {
 
+	static get modelName() {
+		return 'ProductDataModel';
+	}
+
 	getDefaultModelData() {
 		const data = super.getDefaultModelData();
 		const additionalData = {

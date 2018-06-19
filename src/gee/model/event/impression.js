@@ -3,6 +3,10 @@ const ImpressionDataModel = require('./../data/impression');
 
 module.exports = class ProductImpressionEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'ProductImpressionEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'productImpression',
@@ -22,5 +26,3 @@ module.exports = class ProductImpressionEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'ProductImpressionEventModel';

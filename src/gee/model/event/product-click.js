@@ -3,6 +3,10 @@ const ProductModel = require('./../data/product');
 
 module.exports = class ProductClickEventModel extends AbstractEventModel {
 
+	static get modelName() {
+		return 'ProductClickEventModel';
+	}
+
 	getDefaultModelData() {
 		return {
 			event: 'productClick',
@@ -25,5 +29,3 @@ module.exports = class ProductClickEventModel extends AbstractEventModel {
 	}
 
 };
-
-module.exports.eventName = 'ProductClickEventModel';

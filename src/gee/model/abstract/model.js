@@ -1,6 +1,11 @@
+const NotImplementedError = require('./../../error/not-implemented');
 let _configs;
 
 module.exports = class AbstractModel {
+
+	static get modelName() {
+		throw new NotImplementedError();
+	}
 
 	constructor(data = {}) {
 		_configs = _configs || require('./../../config');
@@ -54,6 +59,10 @@ module.exports = class AbstractModel {
 
 	getDefaultModelData() {
 		return {};
+	}
+
+	get modelName() {
+		return this.constructor.modelName;
 	}
 
 };
