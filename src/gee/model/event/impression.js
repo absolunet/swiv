@@ -1,3 +1,5 @@
+"use strict";
+
 const AbstractEventModel = require('./../abstract/event');
 const ImpressionDataModel = require('./../data/impression');
 

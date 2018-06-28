@@ -1,3 +1,5 @@
+"use strict";
+
 const defaultConfigs = require('./defaults');
 
 const _config = {};

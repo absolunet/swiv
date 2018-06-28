@@ -1,3 +1,5 @@
+"use strict";
+
 const AbstractDataModel = require('./../abstract/data');
 
 module.exports = class ImpressionDataModel extends AbstractDataModel {

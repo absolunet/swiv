@@ -1,3 +1,5 @@
+"use strict";
+
 const AbstractEventModel = require('./../abstract/event');
 const ActionFieldModel = require('./../data/action-field');
 

@@ -1,11 +1,13 @@
+"use strict";
+
 module.exports = (obj, predicate) => {
 	const result = {};
 
-	for (const key in obj) {
+	Object.keys(obj).forEach((key) => {
 		if (predicate(obj[key], key)) {
 			result[key] = obj[key];
 		}
-	}
+	});
 
 	return result;
 };

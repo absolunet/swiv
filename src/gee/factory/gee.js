@@ -1,3 +1,5 @@
+"use strict";
+
 const FactoryContract = require('./abstract/factory');
 const GoogleEnhancedEcommerceService = require('./../service/gee');
 

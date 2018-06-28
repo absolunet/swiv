@@ -1,7 +1,9 @@
+"use strict";
+
 const AbstractModel = require('./model');
 const NotImplementedError = require('./../../error/not-implemented').default;
 const resolve = require('./../../utils/resolve');
-const filter = require('./../../utils/filter');
+const filter = require('./../../../../utils/filter');
 let _configs;
 
 module.exports = class AbstractEventModel extends AbstractModel {

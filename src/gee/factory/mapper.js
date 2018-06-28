@@ -1,3 +1,5 @@
+"use strict";
+
 const AbstractQueuableServiceFactory = require('./abstract/queuable-factory');
 const DefaultMapperService = require('./../service/mapper');
 

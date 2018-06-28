@@ -1,3 +1,5 @@
+"use strict";
+
 const NotImplementedError = require('./../../error/not-implemented');
 let _configs;
 

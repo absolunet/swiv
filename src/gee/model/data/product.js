@@ -1,3 +1,5 @@
+"use strict";
+
 const ImpressionDataModel = require('./impression');
 
 module.exports = class ProductDataModel extends ImpressionDataModel {

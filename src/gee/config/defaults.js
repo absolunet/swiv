@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	dataLayer: 'dataLayer',
 	gtm: 'google_tag_manager',

@@ -1,3 +1,5 @@
+"use strict";
+
 const AbstractEventModel = require('./../abstract/event');
 
 module.exports = class DefaultEventModel extends AbstractEventModel {
