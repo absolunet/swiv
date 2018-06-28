@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const AbstractServiceFactory = require('./factory');
 const NoQueueServiceError = require('./../../error/no-queue-service');

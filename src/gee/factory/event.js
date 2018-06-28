@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const AbstractQueuableServiceFactory = require('./abstract/queuable-factory');
 const DefaultEventService = require('./../service/event');

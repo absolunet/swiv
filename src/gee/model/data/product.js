@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const ImpressionDataModel = require('./impression');
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = (obj, predicate) => {
 	const result = {};

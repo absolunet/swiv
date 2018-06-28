@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 require('./../config');
 const GeeFactory = require('./../factory/gee');
