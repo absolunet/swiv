@@ -1,7 +1,7 @@
 'use strict';
 
 const AbstractEventModel = require('./../abstract/event');
-const ActionFieldModel = require('./../data/action-field');
+const ProductDataModel = require('./../data/product');
 
 module.exports = class PurchaseEventModel extends AbstractEventModel {
 
@@ -14,18 +14,19 @@ module.exports = class PurchaseEventModel extends AbstractEventModel {
 			event: 'purchase',
 			ecommerce: {
 				purchase: {
-					actionField: new ActionFieldModel()
+					actionField: {},
+					products: []
 				}
 			}
 		};
 	}
 
 	getMainDataKey() {
-		return 'ecommerce.purchase.actionField';
+		return 'ecommerce.purchase.products';
 	}
 
 	getMainDataType() {
-		return ActionFieldModel;
+		return ProductDataModel;
 	}
 
 };
