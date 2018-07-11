@@ -938,10 +938,7 @@ module.exports = function (_AbstractEventModel) {
 			return {
 				event: 'checkout',
 				ecommerce: {
-					actionField: {
-						step: 1,
-						option: this.getConfigRepository().get('defaultCreditCard', '')
-					},
+					actionField: {},
 					products: []
 				},
 				eventCallback: function eventCallback() {} // eslint-disable-line no-empty-function
@@ -1001,10 +998,7 @@ module.exports = function (_AbstractEventModel) {
 				event: 'checkoutOption',
 				ecommerce: {
 					checkout_option: { // eslint-disable-line camelcase
-						actionField: {
-							step: 1,
-							option: this.getConfigRepository().get('defaultCreditCard', '')
-						}
+						actionField: {}
 					}
 				}
 			};

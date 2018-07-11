@@ -14,10 +14,7 @@ module.exports = class CheckoutOptionEventModel extends AbstractEventModel {
 			event: 'checkoutOption',
 			ecommerce: {
 				checkout_option: { // eslint-disable-line camelcase
-					actionField: {
-						step: 1,
-						option: this.getConfigRepository().get('defaultCreditCard', '')
-					}
+					actionField: {}
 				}
 			}
 		};

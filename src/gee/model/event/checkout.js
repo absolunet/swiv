@@ -13,10 +13,7 @@ module.exports = class CheckoutEventModel extends AbstractEventModel {
 		return {
 			event: 'checkout',
 			ecommerce: {
-				actionField: {
-					step: 1,
-					option: this.getConfigRepository().get('defaultCreditCard', '')
-				},
+				actionField: {},
 				products: []
 			},
 			eventCallback: () => {} // eslint-disable-line no-empty-function
