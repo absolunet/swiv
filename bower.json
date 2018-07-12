@@ -1,6 +1,6 @@
 {
   "name": "swiv",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-rc.1",
   "description": "JavaScript plugin to work with Google analytics systems with fluent API",
   "definition": "JavaScript plugin to work with Google analytics systems with fluent API",
   "homepage": "https://github.com/absolunet/swiv-app-insiteangular",
