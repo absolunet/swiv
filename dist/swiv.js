@@ -1597,7 +1597,10 @@ module.exports = function () {
 			var _this2 = this;
 
 			this.eventService.subscribe(this.getEventName(event), function (data) {
-				window[_this2.configs.get('dataLayer', 'dataLayer')].push(data);
+				var dl = window[_this2.configs.get('dataLayer', 'dataLayer')];
+				if (dl && dl instanceof Array) {
+					dl.push(data);
+				}
 			});
 
 			this['trigger' + this.getCleanEventName(this.getEventModelClass(event), true)] = function (data) {
