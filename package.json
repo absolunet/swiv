@@ -1,6 +1,5 @@
 {
   "name": "swiv",
-  "version": "1.0.0-rc.2",
   "description": "JavaScript plugin to work with Google analytics systems with fluent API",
   "homepage": "https://github.com/absolunet/swiv",
   "author": {
