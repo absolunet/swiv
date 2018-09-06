@@ -938,8 +938,10 @@ module.exports = function (_AbstractEventModel) {
 			return {
 				event: 'checkout',
 				ecommerce: {
-					actionField: {},
-					products: []
+					checkout: {
+						actionField: {},
+						products: []
+					}
 				},
 				eventCallback: function eventCallback() {} // eslint-disable-line no-empty-function
 			};
@@ -947,7 +949,7 @@ module.exports = function (_AbstractEventModel) {
 	}, {
 		key: 'getMainDataKey',
 		value: function getMainDataKey() {
-			return 'ecommerce.products';
+			return 'ecommerce.checkout.products';
 		}
 	}, {
 		key: 'getMainDataType',
